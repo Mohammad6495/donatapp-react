@@ -1,0 +1,27 @@
+.address-card-holder {
+  background: #fdfdfd;
+  border: 1px solid #CB7640;
+  border-radius: 14px;
+
+  @media screen and (max-width: 575.99px) {
+    & span {
+      font-size: 0.8rem !important;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    & span {
+      font-size: 1.1rem !important;
+    }
+  }
+}
+
+/*
+
+ @media screen and (max-width: 576px) {
+    font-size: 0.8rem !important;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 1.1rem !important;
+  }
+
+*/

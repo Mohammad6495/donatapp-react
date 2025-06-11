@@ -1,0 +1,55 @@
+.bakery-btn-base-styles {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+.bakery-item-holder2 {
+  border: 1px solid #CB7640;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+
+  .bakery-img-holder {
+    div {
+      border: 1px solid #CB7640;
+    }
+  }
+
+  .bakery-title-button-holder {
+    .bakery-title-container {
+      .bakery-title-holder {
+        .bakery-price {
+          font-size: 0.8rem;
+          color: #595959;
+        }
+      }
+    }
+    .bakery-buttons-container {
+      .bakery-buttons-holder {
+        .bakery-btn-plus {
+          @extend .bakery-btn-base-styles;
+          background-image: url("../../../../../assets/images/plus_icon.png");
+          background-color: #CB7640;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+        .bakery-count {
+          color: #000;
+        }
+        .bakery-btn-minus {
+          @extend .bakery-btn-base-styles;
+          background-image: url("../../../../../assets/images/minus_icon.png");
+          background-color: #CB7640;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+      }
+    }
+    .bakery-count-text {
+      color: #595959;
+      font-size: 0.8rem;
+    }
+  }
+}

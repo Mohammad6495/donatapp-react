@@ -1,0 +1,24 @@
+.button-holder {
+  button {
+    box-shadow: 0px 5px 5px #ccc;
+    background-color: #CB7640;
+    color: #ffffff;
+    border-radius: 0.5rem;
+    width: 100%;
+    border: 1px solid transparent;
+    outline: none;
+    &:hover {
+      background-color: #9b3f81;
+      color: #ffffff;
+    }
+  }
+}
+
+.register-text-holder {
+  .register-btn {
+    color: #CB7640;
+    background-color: transparent;
+    border: none;
+    outline: none;
+  }
+}

@@ -1,0 +1,23 @@
+.dialog-close-icon-holder {
+  .dialog-close-icon {
+    background-image: url("../../../../assets/images/CloseIcon.svg");
+    padding: 0;
+    margin: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    @media screen and (min-width: 500px) {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+  .dialog-title {
+    font-size: 0.8rem !important;
+    @media screen and (min-width: 500px) {
+      font-size: 1.1rem !important;
+    }
+  }
+}

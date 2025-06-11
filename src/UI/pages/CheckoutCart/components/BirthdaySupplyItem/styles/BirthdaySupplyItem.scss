@@ -1,0 +1,20 @@
+@import "../../../../../../assets/styles/variables/colors.module";
+
+.birthday-supply-item-holder {
+  background: rgba(151, 48, 121, 0.08);
+  border-radius: 16px;
+  .birthday-supply-img-holder {
+  }
+
+  .birthday-supply-title-holder {
+    .birthday-supply-title {
+    }
+
+    .birthday-supply-price {
+      color: $caro-primary;
+    }
+  }
+
+  .multiple-btn-holder {
+  }
+}

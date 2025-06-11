@@ -1,0 +1,11 @@
+.progress-text {
+  font-size: 1rem;
+
+  @media screen and (max-width: 576px) {
+    font-size: 0.8rem;
+  }
+
+  @media screen and (max-width: 380px) {
+    font-size: 0.7rem;
+  }
+}

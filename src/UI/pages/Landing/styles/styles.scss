@@ -1,0 +1,107 @@
+.branch-address-holder {
+  font-size: 0.8rem;
+  .branch-address-text {
+    font-size: 0.8rem;
+    // font-weight: bold;
+  }
+  .branch-address {
+    font-size: 0.8rem;
+  }
+  // @media screen and (max-width: 700px) {
+  //   font-size: 1rem !important;
+  // }
+  // @media screen and (max-width: 460px) {
+  //   font-size: 0.7rem !important;
+  // }
+}
+
+.address-text {
+  color: #CB7640;
+  // font-weight: bold;
+  @media screen and (max-width: 700px) {
+    font-size: 0.9rem !important;
+  }
+  @media screen and (max-width: 460px) {
+    font-size: 0.8rem !important;
+  }
+}
+
+.divider {
+  width: 90%;
+  height: 2px;
+  border: 1px solid rgb(151, 48, 121, 0.3);
+}
+
+.map-drawer-divider {
+  width: 95%;
+  height: 2px;
+  border: 1px solid rgba(151, 48, 121, 0.24);
+}
+
+// drawer items holder
+.drawer-branch-items-holder {
+  width: 400px !important;
+  @media screen and (max-width: 576px) {
+    width: 100vw !important;
+  }
+
+  .drawer-close-icon-holder {
+    // drawer close icon
+    .drawer-close-icon {
+      background-image: url("../../../../assets/images/CloseIcon.svg");
+      padding: 0;
+      margin: 0;
+      width: 2rem;
+      height: 2rem;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      cursor: pointer;
+    }
+  }
+}
+
+.sending-price-section {
+  .sending-price-holder {
+    border: 1px solid rgba(151, 48, 121, 0.16);
+    background: #ffffff;
+    box-shadow: 0px 4px 16px rgba(151, 48, 121, 0.16);
+    border-radius: 8px;
+    span {
+      font-size: 0.8rem;
+      color: #444444;
+    }
+    button {
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: #CB7640;
+      background: none;
+      border: none;
+      outline: none;
+      &:hover {
+        color: #97086f;
+      }
+    }
+  }
+}
+
+// .drawer-branches-holder{
+//   height: ;
+// }
+
+.about-us {
+  background-color: #fff;
+  box-shadow: 0px 4px 16px rgba(151, 48, 121, 0.16);
+  border-radius: 6px;
+  margin-top: 10px;
+  position: relative;
+}
+
+.enamad-box {
+  position: absolute;
+  left: 10px;
+  bottom: 34px;
+  img {
+    width: 80px;
+  }
+}

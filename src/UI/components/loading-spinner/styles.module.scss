@@ -1,0 +1,49 @@
+@import "../../assets/styles/variables/colors.module";
+
+.spinner-loading {
+  background: $main-color-1-contrast-transparent;
+
+  /* width: 100vw; */
+  width: 100vw;
+  max-width: 576px;
+  margin: 0 auto;
+  height: 100%;
+  position: absolute;
+  z-index: 100000;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.spinner-loading-box {
+  background: $main-color-1-contrast-transparent;
+
+  /* width: 100vw; */
+  position: absolute;
+  z-index: 100000;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.loading {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid $main-color-1-light;
+  border-radius: 50%;
+  border-top-color: $main-color-1;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,52 @@
+.refrigerator-cake-thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(221, 111, 190);
+  // (7, 91, 248)
+  &::-webkit-scrollbar {
+    width: 5px !important;
+    height: 3px !important;
+    background-color: rgb(221, 111, 190);
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 1rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgb(221, 111, 190);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.compare-btn {
+  transition: 0.2s;
+  background-color: #fff;
+  position: fixed;
+  bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  svg {
+    transition: 0.2s;
+  }
+}
+.compare-btn:hover,
+.compare-btn:active,
+.compare-btn:focus {
+  background-color: rgb(255, 215, 244);
+  svg {
+    // font-size: 1.6rem;
+    transform: scale(1.09);
+  }
+}
+
+@media (max-width: 354px) {
+  .type-title {
+    font-size: 9px !important;
+  }
+}

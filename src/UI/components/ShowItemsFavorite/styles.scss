@@ -1,0 +1,29 @@
+.showitemfavorite {
+  background-color: #CB7640;
+  position: fixed;
+  right: 0;
+  top: 5px;
+  min-width: fit-content;
+  margin: 0 auto;
+  transition: all 0.4s;
+  font-size: 15px !important;
+  max-width: 576px;
+  z-index: 100000;
+  color: #fff !important;
+  border-radius: 6px;
+  padding: 2px 5px;
+
+  .BoxHeart {
+    position: relative;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .BoxHeartCount {
+      position: absolute;
+      font-size: 12px;
+    }
+  }
+}

@@ -1,0 +1,55 @@
+.text-area-btn {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+  &.is-close {
+    border: 1px solid #CB7640;
+  }
+  &.is-open {
+    background: #CB7640;
+    border: 1px solid #CB7640;
+  }
+}
+
+.text-area-holder {
+  textarea {
+    // border: 1px solid rgba(151, 48, 121, 0.4);
+    resize: none;
+    width: 100% !important;
+    height: 120px;
+    border-radius: 8px;
+  }
+  &.text-area-is-open {
+    form {
+      transition: 0.5s !important;
+      width: 100% !important;
+      // max-height: 120px !important;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  &.text-area-is-closed {
+    form {
+      transition: 0.3s !important;
+      width: 100% !important;
+      // max-height: 0 !important;
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+}
+
+.react-3d-carousel {
+  width: 150%;
+  min-height: 80vh;
+  margin-left: -25%;
+}
+
+.bg-caro {
+  background-color: #CB7640;
+}
+
+.border-caro {
+  border: 2px solid #CB7640;
+}

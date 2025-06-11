@@ -1,0 +1,9 @@
+.slide-item {
+  /* background-color: green; */
+  background: linear-gradient(#fff, #CB764066);
+  transition: 0.2s;
+}
+.slide-item.is-current-item {
+  background: #fff;
+  transition: 0.2s;
+}

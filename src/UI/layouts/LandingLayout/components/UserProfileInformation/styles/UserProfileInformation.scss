@@ -1,0 +1,29 @@
+.user-data-holder {
+  background: #CB7640;
+  border: 1px solid #CB7640;
+  border-radius: 10px;
+  .user-pic-holder {
+  }
+  .user-name-holder {
+    span {
+      color: #fff;
+      font-size: 14px;
+    }
+  }
+  .edit-icon-holder {
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    .edit-icon {
+      display: inline-block;
+      background-image: url("../../../../../../assets/images/edit.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      padding: 0;
+      margin: 0;
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}

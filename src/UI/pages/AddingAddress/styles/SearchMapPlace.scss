@@ -1,0 +1,30 @@
+.search-place {
+  position: relative;
+  input {
+    border: 1px solid rgb(148, 4, 107);
+    outline: none;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 15px;
+    padding: 8px 8px;
+    ::placeholder {
+      font-size: 15px;
+    }
+  }
+  .search-place-box {
+    position: absolute;
+    background-color: #fff;
+    z-index: 100;
+    width: 100%;
+    height: 100vh;
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      background-color: #fff;
+      li {
+        cursor: pointer;
+      }
+    }
+  }
+}

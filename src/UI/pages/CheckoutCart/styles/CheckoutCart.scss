@@ -1,0 +1,161 @@
+@import "../../../../assets/styles/variables/colors.module";
+
+.user-name-number-container {
+  background-color: #f5f5f5;
+  border: 1px solid #000000;
+  border-radius: 10px;
+}
+
+.weight-price-holder {
+  .pastry-name {
+    color: $caro-primary;
+  }
+  .pastry-weight {
+    color: $caro-primary;
+  }
+}
+
+.checkout-address-holder {
+  .MuiPaper-root {
+    width: 100% !important;
+    max-height: 50% !important;
+  }
+}
+
+.btn-submit-factor {
+  position: fixed;
+  bottom: -5px;
+  max-width: 500px;
+  width: 100%;
+  z-index: 200;
+}
+
+.userProfileTop {
+  @media (max-width: 350px) {
+    flex-direction: column;
+    gap: 10px !important;
+  }
+}
+.factor-info .item-selector:last-child {
+  border-bottom: none !important;
+}
+.SectionCalculationIcon {
+  width: 25px;
+  height: 29px;
+  padding: 3px 4px 4px 4px;
+  border-radius: 4px;
+  background-color: #CB7640;
+
+  @media (max-width: 350px) {
+    width: 28px;
+    height: 28px;
+    padding: 1px 4px 4px 4px;
+    border-radius: 4px;
+  }
+}
+
+.calculationTitle {
+  font-size: 19px !important;
+
+  @media (max-width: 350px) {
+    font-size: 17px !important;
+  }
+}
+
+.calculationConsignment {
+  font-size: 14px !important;
+
+  @media (max-width: 350px) {
+    font-size: 12px !important;
+  }
+}
+
+.cartItem {
+  .cartItemTop {
+    display: flex;
+    align-items: center;
+    max-width: 150px !important;
+
+    @media (max-width: 400px) {
+      max-width: 100% !important;
+    }
+  }
+  .cartItemCenter {
+    padding: 0 1rem 0 0 !important;
+
+    strong {
+      font-size: 17px;
+
+      @media (max-width: 400px) {
+        font-size: 15px;
+      }
+    }
+
+    span {
+      color: #595959;
+      font-size: 15px;
+
+      @media (max-width: 400px) {
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      padding: 10px !important;
+    }
+  }
+
+  .cartItemTeash {
+    max-width: 40px;
+
+    div {
+      width: 100%;
+      padding: 2px 4px 4px 4px;
+      border: 1px solid #c90000;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      margin-top: 5px;
+      max-width: fit-content;
+
+      @media (max-width: 370px) {
+        max-width: 100%;
+      }
+
+      button {
+        width: 28px;
+        height: 28px;
+        outline: none;
+        border: none;
+      }
+    }
+
+    @media (max-width: 400px) {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 370px) {
+    flex-direction: column !important;
+  }
+}
+
+.TabItem {
+  font-size: 14px !important;
+  margin: 8px !important;
+  padding: 8px !important;
+
+  @media (max-width: 370px) {
+    font-size: 12px !important;
+    margin: 4px !important;
+    padding: 0 !important;
+  }
+}
+
+.priceSize {
+  font-size: 15px !important;
+
+  @media (max-width: 370px) {
+    font-size: 13px !important;
+  }
+}

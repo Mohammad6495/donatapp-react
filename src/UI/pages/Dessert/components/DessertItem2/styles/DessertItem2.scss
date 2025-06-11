@@ -1,0 +1,46 @@
+.dessert-btn-base-styles {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+.dessert-item-holder2 {
+  border: 1px solid rgba(151, 48, 121, 0.4);
+  border-radius: 16px;
+
+  .dessert-title-button-holder {
+    .dessert-title-container {
+      .dessert-title-holder {
+        .dessert-price {
+          font-size: 0.8rem;
+        }
+      }
+    }
+    .dessert-buttons-container {
+      .dessert-count-text {
+        color: #000;
+      }
+      .dessert-buttons-holder {
+        .dessert-btn-plus {
+          @extend .dessert-btn-base-styles;
+          background-image: url("../../../../../../assets/images/plus_icon.png");
+          background-color: #CB7640;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+        .dessert-count {
+          color: #000;
+        }
+        .dessert-btn-minus {
+          @extend .dessert-btn-base-styles;
+          background-image: url("../../../../../../assets/images/minus_icon.png");
+          background-color: #CB7640;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+      }
+    }
+  }
+}

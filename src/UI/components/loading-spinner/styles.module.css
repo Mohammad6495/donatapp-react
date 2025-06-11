@@ -1,0 +1,45 @@
+:export {
+  main-color-1: #157dbc;
+  main-color-1-dark: #105a88;
+  main-color-1-light: #64baf0;
+  main-color-1-contrast: #ebf7ff;
+  input-background: #dbdbdb;
+}
+
+.spinner-loading {
+  background: #e7f3fc5d;
+  /* width: 100vw; */
+  width: 100vw;
+  max-width: 576px;
+  margin: 0 auto;
+  height: 100%;
+  position: absolute;
+  z-index: 100000;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.loading {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #64baf0;
+  border-radius: 50%;
+  border-top-color: #157dbc;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+/*# sourceMappingURL=styles.module.css.map */

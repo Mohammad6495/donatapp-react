@@ -1,0 +1,18 @@
+.react-horizontal-scrolling-menu--wrapper {
+  scrollbar-width: thin;
+  ::-webkit-scrollbar {
+    height: 3px !important;
+  }
+  .react-horizontal-scrolling-menu--scroll-container {
+    padding-bottom: 0.5rem;
+  }
+}
+
+.scrollBar-width {
+  max-width: calc(800px - 2rem);
+}
+@media only screen and (max-width: 800px) {
+  .scrollBar-width {
+    max-width: calc(100vw - 2rem);
+  }
+}

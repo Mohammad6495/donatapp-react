@@ -1,0 +1,18 @@
+.bakery-drawer-item-container {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  max-height: 60px;
+  .img-holder {
+    img {
+      height: 50px;
+      max-width: 50px;
+    }
+  }
+}
+
+.bakery-drawer-item-title {
+  font-size: 1rem;
+  @media screen and (max-width: 360px) {
+    font-size: 0.8rem;
+  }
+}

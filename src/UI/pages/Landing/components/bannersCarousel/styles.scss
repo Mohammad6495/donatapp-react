@@ -1,0 +1,9 @@
+@import "../../../../../assets/styles/variables/colors.module";
+
+.swiper-pagination-bullet {
+  transition: 0.2s !important;
+  background-color: $caro-primary-xxxlight !important;
+  &-active {
+    background-color: $caro-primary-xxxlight !important;
+  }
+}

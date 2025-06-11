@@ -1,0 +1,32 @@
+.pastry-item-holder {
+  border-bottom: 2px solid rgba(151, 48, 121, 0.64);
+  // height: 35px;
+  &:last-child {
+    border: none;
+  }
+
+  @media screen and (max-width: 490px) {
+    // height: 30px;
+  }
+
+  @media screen and (max-width: 410px) {
+    // height: 25px;
+  }
+
+  .pastry-item-image-holder {
+  }
+
+  .pastry-item-title-holder {
+    .pastry-item-title {
+      span {
+        font-size: 14px;
+      }
+    }
+    .pastry-item-count {
+      span {
+        color: #309747;
+        font-size: 14px;
+      }
+    }
+  }
+}

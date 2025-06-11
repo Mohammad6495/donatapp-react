@@ -1,0 +1,18 @@
+// Light Colors
+$baseMode-bg: #C36428;
+$baseMode-dark: #000;
+
+$caro-primary:#C36428;
+$caro-primary-dark: #C36428;
+$caro-primary-light: #C36428;
+$caro-primary-xxxlight: #C36428;
+$caro-primary-contrast: #ffffff;
+
+:export {
+  baseMode-bg: $baseMode-bg;
+  baseMode-dark: $baseMode-dark;
+  caro-primary: $caro-primary;
+  caro-primary-dark: $caro-primary-dark;
+  caro-primary-light: $caro-primary-light;
+  caro-primary-contrast: $caro-primary-contrast;
+}

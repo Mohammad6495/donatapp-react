@@ -1,0 +1,20 @@
+.bottom-section {
+  &.is-open {
+    height: 100%;
+    visibility: visible;
+    opacity: 1;
+    transition: 0.5s;
+    // p {
+    //   height: 20%;
+    // }
+  }
+  &.is-close {
+    height: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.3s;
+    // p {
+    //   height: 0;
+    // }
+  }
+}

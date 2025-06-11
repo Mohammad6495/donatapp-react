@@ -1,0 +1,21 @@
+.order-item-holder {
+  &.successfull {
+    border: 1px solid #CB7640;
+    border-radius: 15px;
+  }
+  &.unsuccessfull {
+    border: 1px solid #e90000;
+    border-radius: 15px;
+  }
+}
+
+.order-status-holder {
+  .order-status {
+    &.success {
+      color: #CB7640;
+    }
+    &.unsuccess {
+      color: #e90000;
+    }
+  }
+}

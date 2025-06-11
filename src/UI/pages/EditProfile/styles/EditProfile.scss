@@ -1,0 +1,26 @@
+.user-image-holder {
+  .img-holder-base {
+    .img-holder {
+      border: 1px solid rgba(151, 48, 121, 0.4);
+      border-radius: 1.7rem;
+      position: relative;
+
+      .plus-icon-btn {
+        position: absolute;
+        background: #CB7640 url("../../../../assets/images/plus.png") no-repeat
+          50% 50%;
+
+        right: 0;
+        bottom: 0;
+        transform: translate(15%, 15%);
+        // right: -5px;
+        // bottom: -5px;
+        // background-size: 50px;
+        padding: 0.8rem 0.8rem;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        outline: none;
+      }
+    }
+  }
+}

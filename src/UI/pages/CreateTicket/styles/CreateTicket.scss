@@ -1,0 +1,19 @@
+.ticket-text-area {
+  border: 1px solid rgba(151, 48, 121, 0.4);
+  border-radius: 10px;
+  max-height: 145px;
+  min-height: 145px;
+}
+
+.ticket-file-input-label {
+  width: 120px;
+  height: 56px;
+  background: rgba(151, 48, 121, 0.4);
+  border-radius: 10px;
+  background-image: url("../../../../assets/images/folder.png");
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: 10% 50%;
+  color: #fff;
+  cursor: pointer;
+}

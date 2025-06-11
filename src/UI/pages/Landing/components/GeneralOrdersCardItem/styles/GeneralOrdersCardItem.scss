@@ -1,0 +1,64 @@
+.order-card-container {
+  border: 2px solid #CB7640;
+  border-radius: 12px;
+  background-color: #f8f8f8;
+  gap: 10px;
+}
+
+.order-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.order-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.order-active-text {
+  color: #008000;
+  font-weight: bold;
+}
+
+.order-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.status-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.pending-text {
+  color: #a000a0;
+  font-size: 13px;
+}
+
+.order-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-price {
+  font-size: 14px;
+  color: #000;
+}
+
+.track-order-btn {
+  background-color: #CB7640;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+}
+
+.track-order-btn:hover {
+  background-color: #940094;
+}

@@ -1,0 +1,42 @@
+// React Code Input styles
+.styles_react-code-input__CRulA {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-orient: horizontal !important;
+  -webkit-box-direction: normal !important;
+  -ms-flex-direction: row !important;
+  flex-direction: row !important;
+  -webkit-box-pack: justify !important;
+  -ms-flex-pack: justify !important;
+  justify-content: space-between !important;
+  -webkit-box-align: stretch !important;
+  -ms-flex-align: stretch !important;
+  align-items: stretch !important;
+}
+
+.styles_react-code-input__CRulA input {
+  border: 1px solid #666 !important;
+  border-radius: 0.5rem !important;
+}
+
+p.styles_title__1cca0 {
+  margin: 0 0 0.5rem 0;
+  direction: rtl;
+}
+
+.verify-login-button-holder {
+  button {
+    box-shadow: 0px 5px 5px #ccc;
+    background-color: #CB7640;
+    color: #ffffff;
+    border-radius: 0.5rem;
+    width: 100%;
+    border: 1px solid transparent;
+    outline: none;
+    &:hover {
+      background-color: #9b3f81;
+      color: #ffffff;
+    }
+  }
+}

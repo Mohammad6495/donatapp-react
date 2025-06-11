@@ -1,0 +1,200 @@
+.layout-holder {
+  width: 100%;
+  // height: 100vh;
+
+  // layout header holder
+  .layout-header-holder {
+    .header-icon-holder {
+      .header__hamburge__icon {
+        background-image: url("../../../assets/images/HamburgerIcon.svg");
+        padding: 0;
+        margin: 0;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.7rem;
+        background-color: #CB7640;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 1.2rem;
+        cursor: pointer;
+      }
+
+      .header__hamburge__icon2 {
+        // background-image: url("../../../assets/images/HamburgerIcon.svg");
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        width: 5rem;
+        height: 2.5rem;
+        border-radius: 0.7rem;
+        background-color: #CB7640;
+        // background-repeat: no-repeat;
+        // background-position: center;
+        // background-size: 1.2rem;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.header__basket__icon {
+  padding: 0;
+  margin: 0;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 0.7rem;
+  background-color: #CB7640;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1.2rem;
+  cursor: pointer;
+}
+
+// drawer items holder
+.drawer-items-holder {
+  width: 400px !important;
+
+  @media screen and (max-width: 576px) {
+    width: 100vw !important;
+  }
+
+  // @media screen and (max-width: 580px) {
+  //   width: 300px !important;
+  // }
+  // @media screen and (max-width: 380px) {
+  //   width: 100% !important;
+  // }
+
+  // drawer close icon
+  .drawer-close-icon {
+    background-image: url("../../../assets/images/CloseIcon.svg");
+    padding: 0;
+    margin: 0;
+    width: 2rem;
+    height: 2rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+  }
+
+  //drawer links holder
+  .drawer-links-holder {}
+}
+
+.nav-foot {
+  position: fixed;
+
+  bottom: 10px;
+  max-width: 576px;
+  left: 10px;
+  right: 10px;
+  margin: 0 auto;
+  padding: 0px 10px;
+
+  .nav-foot-item {
+    cursor: pointer;
+    width: 100%;
+    padding: 0px 20px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 16px rgba(151, 48, 121, 0.3);
+    background: #fff;
+  }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 576px;
+  margin: 0 auto;
+
+  .box-main {
+    width: 100%;
+    border-radius: 30px 30px 0px 0px;
+    height: 80px;
+    background-color: rgba($color: #f9f9f9, $alpha: 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-around;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+
+    .box-item {
+   
+      border-radius: 100%;
+      display: flex;
+      z-index: 100;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      border-radius: 20px !important;
+      .wall-box {
+        height: 50px;
+        width: 130px;
+        margin-bottom: 6px;
+        margin-right: -42px;
+        position: absolute;
+        background-color: white;
+
+        bottom: 20px;
+        z-index: 9;
+      }
+
+      .img-box {
+        z-index: 10;
+        padding: 5px;
+
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      .text-item {
+        text-align: center;
+        font-size: 15px;
+        color: white;
+      }
+    }
+  }
+}
+
+.stacked-div {
+  @media (max-width: 500px) {
+    width: 30%;
+    margin-left: -16px !important;
+  }
+
+  @media (max-width: 420px) {
+    width: 32%;
+    margin-left: -20px !important;
+  }
+
+  @media (max-width: 400px) {
+    width: 34%;
+    margin-left: -22px !important;
+  }
+
+  @media (max-width: 380px) {
+    width: 36%;
+    margin-left: -24px !important;
+  }
+
+  @media (max-width: 350px) {
+    width: 38%;
+    margin-left: -26px !important;
+  }
+
+  height: 50px;
+  width: 23%;
+  z-index: 9;
+  border-radius: 10%;
+  top: -1px !important;
+  position: absolute;
+  transition: top 0.5s,
+  left 0.5s !important;
+  /* اعمال ترانزیشن برای تغییرات top و left */
+}

@@ -1,0 +1,57 @@
+.map-holder {
+  // border: 1px solid rgba(151, 48, 121, 0.4);
+  border-radius: 14px;
+  position: relative;
+  .map-overlay {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+  }
+}
+
+// origin address holder
+.origin-address-holder {
+  .origin-address-text {
+    font-size: 0.8rem;
+    color: #444444;
+  }
+  .origin-address {
+    font-size: 0.8rem;
+    color: #444444;
+  }
+}
+
+// destination address holder
+.destination-address-holder {
+  .destination-address-text {
+    font-size: 0.8rem;
+    color: #CB7640;
+    @media screen and (min-width: 570px) {
+      font-size: 1rem;
+    }
+  }
+  .destination-address {
+    font-size: 0.8rem;
+    color: #CB7640;
+    @media screen and (min-width: 570px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+.outlined-button-holder {
+  button {
+    color: #9b3f81;
+    border-radius: 0.5rem;
+    width: 100%;
+    border: 1px solid #9b3f81;
+    &:hover {
+      color: #963279;
+      border: 1px solid #963279;
+    }
+  }
+}

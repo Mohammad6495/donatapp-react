@@ -1,0 +1,20 @@
+.badge-basic-style {
+  color: #fff;
+  font-size: 0.5rem !important;
+  border-radius: 6px;
+}
+
+.brown-chocolate {
+  @extend .badge-basic-style;
+  background-color: #b49b43;
+}
+
+.green-chocolate {
+  @extend .badge-basic-style;
+  background-color: #309766;
+}
+
+.caramel {
+  @extend .badge-basic-style;
+  background-color: #308497;
+}

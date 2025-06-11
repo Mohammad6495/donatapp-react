@@ -1,0 +1,39 @@
+.branch-map-holder {
+  border: 1px solid rgba(151, 48, 121, 0.4);
+  border-radius: 14px;
+  position: relative;
+
+  .activePin {
+    background-image: url("../../../../../../assets/images/colorPin.png");
+    position: absolute;
+    right: 45%;
+    top: 38%;
+    padding: 1rem 1rem;
+  }
+  .disActivePin {
+    background-image: url("../../../../../../assets/images/uncolorPin.png");
+    position: absolute;
+    right: 45%;
+    top: 38%;
+    padding: 1rem 1rem;
+  }
+}
+
+.my-map-container {
+  width: 100%;
+  height: 100%;
+}
+
+.branch-container {
+  .branch-holder {
+    width: 100%;
+    border: 1px solid #CB7640;
+    border-radius: 8px;
+    color: #CB7640;
+    &.active {
+      background-color: #CB7640;
+      border-radius: 8px;
+      color: #fff;
+    }
+  }
+}

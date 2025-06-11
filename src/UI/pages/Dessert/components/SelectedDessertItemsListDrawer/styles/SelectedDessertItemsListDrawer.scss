@@ -1,0 +1,40 @@
+@import "../../../../../../assets/styles/variables/colors.module";
+
+.dessert-drawer-container {
+  background-color: $caro-primary;
+
+  min-height: 100px;
+  max-width: 576px;
+  bottom: env(safe-area-inset-bottom);
+  right: 0;
+  left: 0;
+  position: fixed;
+
+  .dessert-item-holder {
+    max-height: 15.5vh;
+    overflow-y: auto;
+    transition: 0.3s;
+  }
+  .dessert-item-holder--open {
+    transition: 0.3s;
+    max-height: 65vh;
+  }
+
+  .dessert-order-button {
+    width: 90%;
+    border: none;
+    outline: none;
+    &.is-open {
+      background-color: #fff;
+      span {
+        color: $caro-primary;
+      }
+    }
+    &.is-closed {
+      background-color: $caro-primary;
+      span {
+        color: #fff;
+      }
+    }
+  }
+}
