@@ -43,22 +43,6 @@ const SelectedDessertItems = () => {
     setCalculatedPrice(calcPrice);
   };
 
-  const getAvailabilityApi = () => {
-    apiCaller({
-      api: branches_apiCalls.apiCall_getBranchAvailability,
-      onSuccess: (resp) => {
-        if (resp?.status === 200 && resp?.data.status == 1) {
-          setIsAvailability(resp?.data?.data);
-        }
-      },
-      onError: (err) => {},
-      onStart: handleOpen,
-      onEnd: handleClose,
-    });
-  };
-  useEffect(() => {
-    getAvailabilityApi();
-  }, []);
 
   useEffect(() => {
     if (dessertSelectedItems.length > 0) {

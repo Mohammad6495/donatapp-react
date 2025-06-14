@@ -23,8 +23,8 @@ export const useCheckProfileStatus = () => {
       api: account_apiCalls.apiCall_getUserProfile,
       onError: onError,
       onSuccess: (resp) => {
-        if (resp?.data?.status == 1 && resp?.status == 200) {
-          if (resp?.data?.data?.profileState == 0) {
+        if (resp?.data?.statusCode == 200 && resp?.status == 200) {
+          if (!resp?.data?.data?.firstName) {
             onContinueNotAllowed();
             if (!location.pathname.includes("verify-register")) {
               navigate(`/edit-profile?returnUrl=${location.pathname}`);
@@ -44,7 +44,7 @@ export const useCheckProfileStatus = () => {
               return;
             }
           }
-          if (resp?.data?.data?.profileState == 1) {
+          if (resp?.data?.data?.address?.length === 0) {
             onContinueNotAllowed();
             if (
               !location.pathname.includes("verify-register") &&
@@ -70,7 +70,10 @@ export const useCheckProfileStatus = () => {
               return;
             }
           }
-          if (resp?.data?.data?.profileState == 2) {
+          if (
+            resp?.data?.data?.firstName &&
+            resp?.data?.data?.address?.length !== 0
+          ) {
             onContinueAllowed();
           }
         } else {

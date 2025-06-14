@@ -24,7 +24,7 @@ const ExtraProductPage = () => {
     apiCaller({
       api: products_apiCalls.apiCall_getAllExtras,
       onSuccess: (resp) => {
-        if (resp?.status === 200 && resp?.data?.status == 1) {
+        if (resp?.status === 200 && resp?.data?.statusCode == 200) {
           setAllExtraProduct(resp?.data?.data);
         }
       },

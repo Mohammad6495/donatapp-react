@@ -1,11 +1,5 @@
 import React, { lazy, Suspense, useEffect, CSSProperties } from "react";
-import {
-  Routes,
-  Route,
-  Navigate,
-  Outlet,
-  useLocation,
-} from "react-router-dom";
+import { Routes, Route, Navigate, Outlet, useLocation } from "react-router-dom";
 import SpinnerLoading from "../../UI/components/spinnerLoading.component";
 import { useAuthContext } from "../contexts/AuthContext/AuthContext";
 
@@ -44,7 +38,6 @@ const CheckoutCart = lazy(() =>
   import("../../UI/pages/CheckoutCart/CheckoutCart")
 );
 
-// const Orders = lazy(() => import("../../UI/pages/Orders/Orders"));
 const ImageEditorPage = lazy(() =>
   import("../../UI/pages/ImageEditor/ImageEditor")
 );
@@ -90,9 +83,6 @@ const FavoritePage = lazy(() =>
 const FavoritItemDetailPage = lazy(() =>
   import("../../UI/pages/FavoritePage/FavoritItemDetail/FavoritItemDetail")
 );
-
-
-
 
 // Refrigerator Cake
 const RefrigeratorCake = lazy(() =>
@@ -179,9 +169,7 @@ const SpecialOffer = lazy(() =>
 );
 ///ExtraProductPage
 const ExtraProductPage = lazy(() =>
-  import(
-    "../../UI/pages/CheckoutCart/components/ExtraProductPage/ExtraProductPage"
-  )
+  import("../../UI/pages/extraProducts/ExtraProduct.page")
 );
 //SaribaKeryPrice
 const SaribaKeryPrice = lazy(() =>
@@ -236,12 +224,9 @@ const MoreAddressPage = lazy(() =>
   import("../../UI/pages/Profile/MoreAddress.page")
 );
 
-///cake
-const SelectCategoryType = lazy(() =>
-  import("../../UI/pages/Landing/CategoryList")
-);
-const ReffererCodePage = lazy(() =>
-  import("../../UI/pages/ReffererCode/ReffererCode")
+
+const RedirectToGateWay = lazy(() =>
+  import("../../UI/pages/RedirectToGateway/redirectToGateWay.page")
 );
 
 function RouterConfig() {
@@ -269,13 +254,19 @@ function RouterConfig() {
           <Route path="/r-c/:orderId" element={<RegisterCommentPage />} />
           <Route path="/message" element={<MessageFinalCommentPage />} />
         </Route>
+        <Route
+          path="/gateway-redirect"
+          element={<RedirectToGateWay />}
+        />
 
         <Route
           path="/redirect-cake-detail/:id"
           element={<RedirectRefrigeratorCake />}
         />
 
-        <Route path="/checkout-cart" element={<CheckoutCart />} />
+        <Route element={<WithBaseLayout />}>
+          <Route path="/checkout-cart" element={<CheckoutCart />} />
+        </Route>
 
         <Route
           path="/refrigerator-cake-order-submit"
@@ -332,16 +323,15 @@ function RouterConfig() {
             element={<SuccessfullPaymentPage />}
           />
           <Route
-            path="/failed-payment/:paymentId/:requestId/:type/:payPrice/:trackingNumber"
+            path="/faild-payment/:paymentId/:requestId/:type/:payPrice/:trackingNumber"
             element={<FailedPaymentPage />}
           />
-
-
 
           <Route
             path="/selected-dessert-items"
             element={<SelectedDessertItems />}
           />
+          <Route path="/extra-products" element={<ExtraProductPage />} />
           <Route
             path="/selected-norouzi-items"
             element={<SelectedNorouziItems />}
@@ -363,8 +353,6 @@ function RouterConfig() {
           {/* Cookies Routes */}
           <Route path="/cookie" element={<Cookies />} />
           <Route path="/cookie-detail" element={<CookiesDetails />} />
-
-
 
           {/* Refrigerator Cake Routes */}
           <Route

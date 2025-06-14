@@ -19,7 +19,7 @@ const ReffererCode = () => {
         apiCaller({
             api: account_apiCalls.apiCall_getreffercode,
             onSuccess: (resp) => {
-                if (resp?.status == 200 && resp?.data?.status == 1) {
+                if (resp?.status == 200 && resp?.data?.statusCode == 200) {
                     setReffererCode(resp?.data?.data)
                 }
             },
@@ -41,7 +41,7 @@ const ReffererCode = () => {
         apiCaller({
             api: account_apiCalls.apiCall_getreffertext,
             onSuccess: (resp) => {
-                if (resp?.status == 200 && resp?.data?.status == 1) {
+                if (resp?.status == 200 && resp?.data?.statusCode == 200) {
                     if (navigator.share) {
                         navigator.share({
                             title: 'کد دعوت دونات',

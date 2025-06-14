@@ -25,18 +25,6 @@ const TipsContextProvider = ({ children }) => {
   //   }
   // }, [tipsStep]);
 
-  useEffect(() => {
-    if (branch) {
-      apiCaller({
-        api: home_apiCalls.apiCall_getBranchProductsAvailability,
-        onSuccess: (resp) => {
-          if (resp.status === 200 && resp.data.status == 1) {
-            setBranchAvailablityData(resp.data.data);
-          }
-        },
-      });
-    }
-  }, [branch]);
 
   const providerValue = {
     tipsStep,

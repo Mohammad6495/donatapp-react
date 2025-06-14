@@ -31,7 +31,7 @@ const DateOfBirthOfUsers = () => {
     apiCaller({
       api: birthDay_apiCaller.apiCall_getAllBirthDay,
       onSuccess: (resp) => {
-        if (resp.status == 200 && resp.data.status == 1) {
+        if (resp.status == 200 && resp.data.statusCode == 200) {
           setAllBirthDay(resp.data?.data);
         }
       },
@@ -50,7 +50,7 @@ const DateOfBirthOfUsers = () => {
         api: birthDay_apiCaller.apiCall_deleteBirthDay,
         apiArguments: id,
         onSuccess: (resp) => {
-          if (resp.status == 200 && resp.data.status == 1) {
+          if (resp.status == 200 && resp.data.statusCode == 200) {
             const clonedList = JSON.parse(JSON.stringify(allBirthDay));
             const index = clonedList.findIndex((it) => it.id == id);
             if (index >= 0) {

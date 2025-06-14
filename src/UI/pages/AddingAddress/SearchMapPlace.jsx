@@ -23,6 +23,22 @@ const SearchMapPlace = ({ onDestinationSelected }) => {
     setSearchPlaceValue(e.target.value);
   };
 
+  const fetchApiSeachPlaceList = async () => {
+    setSearchLoading(true);
+    const res = await fetch(
+      `${urlSearch}?term=${searchPlaceValue} ${'مازندران'}&lat=0&lng=0`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": API_KEY,
+        },
+      }
+    );
+    const data = await res.json();
+    setFindPlaceList(data?.items);
+    setSearchLoading(false);
+  };
  
   // useEffect(() => {
   //   if (location.pathname == "/add-address") {

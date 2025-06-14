@@ -46,7 +46,7 @@ const RefrigeratorCakeDetailsCarousel = () => {
   const [currentDate, setCurrentDate] = useState();
   const [progress, setProgress] = useState(0);
   const [formattedTime, setFormattedTime] = useState("");
-  const { refrigeratorProducts_methods, addItem, shopBasketData } =
+  const { addProductToBasket, generalProducts_methods } =
     useShopBasketContext();
   useEffect(() => {
     if (location.state?.cakes) {
@@ -100,7 +100,7 @@ const RefrigeratorCakeDetailsCarousel = () => {
     apiCaller({
       api: refrigeratorCake_apiCalls.apiCall_currentDate,
       onSuccess: (resp) => {
-        if (resp?.status == 200 && resp?.data?.status == 1) {
+        if (resp?.status == 200 && resp?.data?.statusCode == 200) {
           setCurrentDate(resp?.data?.data);
         }
       },
@@ -176,7 +176,7 @@ const RefrigeratorCakeDetailsCarousel = () => {
   //     toastMessage: true,
   //     onErrorMessage: "دریافت لیست علاقه مندی ها با خطا مواجه شد .",
   //     onSuccess: (resp) => {
-  //       if (resp.status === 200 && resp.data?.status == 1) {
+  //       if (resp.status === 200 && resp.data?.statusCode == 200) {
   //         setFavorites(resp.data.data.map((item) => item.id));
   //       }
   //     },
@@ -202,22 +202,7 @@ const RefrigeratorCakeDetailsCarousel = () => {
   const onSlideChange = (e) => {
     setCurrentSlide(e);
   };
-  const getAvailabilityApi = () => {
-    apiCaller({
-      api: branches_apiCalls.apiCall_getBranchAvailability,
-      onSuccess: (resp) => {
-        if (resp?.status === 200 && resp?.data.status == 1) {
-          setIsAvailability(resp?.data?.data);
-        }
-      },
-      onError: (err) => {},
-      onStart: handleOpen,
-      onEnd: handleClose,
-    });
-  };
-  useEffect(() => {
-    getAvailabilityApi();
-  }, []);
+
   const renderCarouselItems = () => {
     return cakes.map((cake, index) => (
       <RefrigeratorCakeCarouseltem
@@ -243,68 +228,12 @@ const RefrigeratorCakeDetailsCarousel = () => {
     else return <></>;
   }, [cakes]);
   //////////////////////////////////////
-  const [shouldGoToBasket, setShouldGoToBasket] = useState(false);
-  const [selectedCakeId, setSelectedCakeId] = useState();
-  const handleNavigateToRegisterOrder = (id) => {
-    setSelectedCakeId(id);
-    // if (isAvailability.isAvailableRefrigeratorCake) {
-    if (progress > 0) {
-      toast.warn("کاربر گرامی این کیک توسط شخص دیگری رزرو شده است");
-    } else {
-      if (refrigeratorProducts_methods.getItem(id)) {
-        navigate("/checkout-cart");
-      } else {
-        if (!refrigeratorProducts_methods.doesExists(selectedCakeId)) {
-          const rd = new Date().getTime() + 1000 * 60 * 10;
-          addItem({
-            cartItemType: 0,
-            refrigeratorCakeId: id,
-            reservationDate: rd,
-          });
-          setShouldGoToBasket(true);
-          // apiCaller({
-          //   api: refrigeratorCake_apiCalls.apiCall_reserveCake,
-          //   apiArguments: { cakeId: id },
-          //   toastMessage: true,
-          //   onError: (resp) => {
-          //     if (
-          //       resp?.response &&
-          //       resp?.response?.status == 404 &&
-          //       resp?.response?.data?.errors?.[0]
-          //     ) {
-          //       toast.error(resp?.response?.data?.errors?.[0]);
-          //     } else {
-          //       toast.error("رزرو کیک با خطا مواجه شد .");
-          //     }
-          //   },
-          //   onSuccess: (resp) => {
-          //     if (resp.status === 200 && resp.data?.data == 1) {
-          //       const rd = new Date().getTime() + 1000 * 60 * 10;
 
-          //     }
-          //   },
-          // });
-        } else {
-          setShouldGoToBasket(true);
-        }
-      }
-    }
-    // } else {
-    //   toast.warn(isAvailability.refrigeratorCakeDescription);
-    // }
+  const handleNavigateToRegisterOrder = (id) => {
+    addProductToBasket(id, 1);
+    navigate("/checkout-cart");
   };
-  useEffect(() => {
-    if (shouldGoToBasket) {
-      let doesCakeExist =
-        refrigeratorProducts_methods.doesExists(selectedCakeId);
-      if (!doesCakeExist) return;
-      else {
-        // navigate('/checkout-cart');
-        navigate("/checkout-cart");
-      }
-    }
-  }, [shouldGoToBasket, shopBasketData]);
-  ////////////////////////////////////
+
   const onSlideChangee = (e) => {
     setCurrentSlide(e.activeIndex);
   };
@@ -312,58 +241,6 @@ const RefrigeratorCakeDetailsCarousel = () => {
   ///////////////////////////////////////
   return (
     <div className="w-100">
-      {/* <div
-        style={{
-          height:
-            "calc(100vh - 55px - env(safe-area-inset-bottom) - env(safe-area-inset-top) - 56px)",
-          width: "1.2rem",
-          position: "fixed",
-          top: "56px",
-          zIndex: "100",
-          right: `calc( ${
-            width <= 576 ? "0px" : (width - 576) / 2 + "px"
-          }  + env(safe-area-inset-right))`,
-          backgroundColor: "transparent",
-          cursor: "pointer",
-        }}
-        className="d-flex flex-column justify-content-center align-items-center"
-      >
-        <ArrowRight
-          htmlColor={currentSlide === 0 ? "#e38cca" : "#CB7640"}
-          onClick={() => {
-            swiper.slidePrev();
-          }}
-          sx={{
-            fontSize: "2.5rem",
-          }}
-        />
-      </div> */}
-      {/* <div
-        style={{
-          height:
-            "calc(100vh - 55px - env(safe-area-inset-bottom) - env(safe-area-inset-top) - 56px)",
-          width: "1.2rem",
-          position: "fixed",
-          top: "56px",
-          zIndex: "100",
-          left: `calc( ${
-            width <= 576 ? "0px" : (width - 576) / 2 + "px"
-          }  + env(safe-area-inset-left))`,
-          backgroundColor: "transparent",
-          cursor: "pointer",
-        }}
-        className="d-flex flex-column justify-content-center align-items-center"
-      >
-        <ArrowLeft
-          htmlColor={currentSlide === cakes?.length - 1 ? "#e38cca" : "#CB7640"}
-          onClick={() => {
-            swiper.slideNext();
-          }}
-          sx={{
-            fontSize: "2.5rem",
-          }}
-        />
-      </div> */}
       {/* //////////////////////// */}
       <Swiper
         slidesPerView={1}

@@ -30,6 +30,8 @@ const formSchema = Yup.object().shape({
       "تعداد کاراکترها باید کمتر از 100 باشد",
       (val) => val?.length < 100
     ),
+    postalCode: Yup.string()
+    .required("کد پستی الزامی است .")
 });
 
 const AddingAddress = () => {
@@ -194,9 +196,9 @@ const AddingAddress = () => {
       address: addressName
         ? addressName + " " + values?.userAddress
         : values?.userAddress,
-      postalCode: postalCode ?? "",
       lat: coordinates[0],
       lng: coordinates[1],
+      postalCode: values?.postalCode
     };
     if (!addressCityName) {
       toast.error("مجموعه دونات در این محدودیت فعالیت نمیکند");
@@ -222,7 +224,7 @@ const AddingAddress = () => {
         apiArguments: obj,
 
         onSuccess: (resp) => {
-          if (resp.status === 200 && resp.data.status == 1) {
+          if (resp.status === 200 && resp.data.statusCode == 200) {
             if (resp.data?.data?.hasToken) {
               set_userToken(resp.data?.data.token);
               http.setToken(http.tokenKey, resp.data?.data.token);
@@ -286,6 +288,7 @@ const AddingAddress = () => {
       postalCode: postalCode ?? "",
       lat: coordinates[0],
       long: coordinates[1],
+      postalCode: values?.postalCode
     };
     apiCaller({
       api: customerAddress_apiCalls.apiCall_editCustomerAddress,
@@ -391,17 +394,17 @@ const AddingAddress = () => {
                     minHeight: "120px",
                     resize: "none",
                     borderRadius: "0.35rem",
-                    border: '1px solid #9b3f81'
+                    border: '1px solid #C36428'
                   }}
                   formcontrolprops={{
                     variant: "standard",
-                    className: "w-100 p-2",
+                    className: "w-100 px-2",
                   }}
                   labelText="آدرس دقیق پستی *"
                   labelprops={{
                     className: "",
                     color: "",
-                    style: { color: "#9b3f81" },
+                    style: { color: "#C36428" },
                   }}
                   textAreaProps={{
                     className: "py-2 px-3 mt-2",
@@ -414,7 +417,36 @@ const AddingAddress = () => {
                   textAreaClasses="py-2 px-3 mt-2"
                 />
               </div>
-
+              <div dir="rtl" className="d-flex flex-column">
+                <FormikMUITextArea
+                  textAreaStyle={{
+                    maxHeight: "40px",
+                    minHeight: "40px",
+                    resize: "none",
+                    borderRadius: "0.35rem",
+                    border: '1px solid #C36428'
+                  }}
+                  formcontrolprops={{
+                    variant: "standard",
+                    className: "w-100 px-2",
+                  }}
+                  labelText="کد پستی *"
+                  labelprops={{
+                    className: "",
+                    color: "",
+                    style: { color: "#C36428" },
+                  }}
+                  textAreaProps={{
+                    className: "py-2 px-3 mt-2",
+                    id: "postalCode",
+                    name: "postalCode",
+                    color: "",
+                    placeHolder: `کد پستی را وارد کنید
+                    `,
+                  }}
+                  textAreaClasses="py-2 px-3 mt-2"
+                />
+              </div>
               <OrdinaryButton
                 holderClasses="mt-3"
                 buttonText={

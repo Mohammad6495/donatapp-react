@@ -69,6 +69,7 @@ import shoppingPosSecondary from "./../../../assets/images/checkout-cart/shoppin
 import moneysvg from "./../../../assets/images/checkout-cart/money-svgrepo-com 1.svg";
 import factorsvg from "./../../../assets/images/checkout-cart/factor.svg";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import UserProfileInformation from "../../layouts/LandingLayout/components/UserProfileInformation/UserProfileInformation";
 
 const getTabStyle = (isSelected) => ({
   backgroundColor: isSelected ? "#CB7640" : "#DADADA",
@@ -138,40 +139,6 @@ const CheckoutCart = () => {
     setIsBirthDayuserDialog(!isBirthDayuserDialog);
   };
 
-  const getBranch = () => {
-    apiCaller({
-      api: branches_apiCalls.apiCall_get,
-      onSuccess: (resp) => {
-        if (resp.status === 200 && resp?.data?.status == 1) {
-          setBranchData(resp?.data?.data);
-          setIsInPersonPaymentActive(resp?.data?.data?.isInPersonPaymentActive);
-          setCanUserUseBalance(resp?.data?.data?.canUserUseBalance);
-          setBalanceCashBack(resp?.data?.data?.balanceCashBack);
-          setBalanceCashBackForInPersonPayment(
-            resp?.data?.data?.balanceCashBackForInPersonPayment
-          );
-        }
-      },
-    });
-  };
-  useEffect(() => {
-    getBranch();
-  }, []);
-
-  const getBalanceValue = () => {
-    apiCaller({
-      api: account_apiCalls.apiCall_getbalance,
-      onSuccess(resp) {
-        if (resp?.status == 200 && resp?.data?.status == 1) {
-          setBalanceValue(resp?.data?.data);
-        }
-      },
-    });
-  };
-
-  useEffect(() => {
-    getBalanceValue();
-  }, []);
   ///////////
   const onDestinationSelected = (e) => {
     getAddressName(e);
@@ -189,7 +156,7 @@ const CheckoutCart = () => {
       api: customerAddress_apiCalls.apiCall_getAddressName,
       apiArguments: { lat: e[0], lng: e[1] },
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp?.data?.status == 1) {
+        if (resp.status === 200 && resp?.data?.statusCode == 200) {
           /*
             "formatted_address": null,
             "city": null,
@@ -207,8 +174,8 @@ const CheckoutCart = () => {
             } else {
               setAddressName(
                 resp?.data?.data?.formatted_address +
-                " , " +
-                resp?.data?.data?.route_name
+                  " , " +
+                  resp?.data?.data?.route_name
               );
             }
           } else {
@@ -266,6 +233,9 @@ const CheckoutCart = () => {
         setAdressesListIsFetching(false);
       },
       onSuccess: (resp) => {
+        if (resp.data.data?.length !== 0) {
+          setSelectedAdressId(resp.data.data[0]?.id);
+        }
         setAdressesList(resp.data.data);
       },
     });
@@ -277,7 +247,7 @@ const CheckoutCart = () => {
     apiCaller({
       api: branches_apiCalls.apiCall_get,
       onSuccess: (resp) => {
-        if (resp?.status == 200 && resp?.data?.status == 1) {
+        if (resp?.status == 200 && resp?.data?.statusCode == 200) {
           setFreeSendingOnlinePayment(
             resp?.data?.data?.freeSendingForOnlinePayment
           );
@@ -352,14 +322,9 @@ const CheckoutCart = () => {
       toastMessage: true,
       onErrorMessage: "دریافت فاکتور با خطا مواجه شد .",
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data.status == 1) {
+        if (resp.status === 200 && resp.data.statusCode == 200) {
           setFactor(resp.data?.data);
-        } else {
-          resetBasket();
         }
-      },
-      onError: (err) => {
-        resetBasket();
       },
     });
   };
@@ -382,27 +347,14 @@ const CheckoutCart = () => {
   const [finalSubmitIsOnProcess, setFinalSubmitIsOnProcess] = useState(false);
   const { checkProfileStatus } = useCheckProfileStatus();
   const handleSubmit = async () => {
-    if (!userData?.customerBirthDate && userToken) {
-      handleToggleBirthDayUser();
-      return false;
-    }
-
     if (finalSubmitIsOnProcess) return;
     ////
     if (!userToken) {
       navigate("/register?returnUrl=/checkout-cart");
       return;
     } else {
-      if (!shopBasketData?.items || shopBasketData?.items?.length == 0) {
-        toast.warn("برای ثبت سفارش باید ابتدا محصول انتخاب کنید .");
-        return;
-      }
       if (!selectedAdressId && !payAtCaro && !isGift) {
         toast.warn("لطفا یک آدرس انتخاب کنید .");
-        return;
-      }
-      if (adressesList?.length == 0) {
-        toast.warn("کاربر گرامی هنوز هیچ آدرسی اضافه نکردید");
         return;
       }
 
@@ -425,24 +377,9 @@ const CheckoutCart = () => {
             apiArguments: {
               ...shopBasketData,
               customerAddressId: selectedAdressId,
-              isOnlinePayment: !payAtHome,
-              isDarbCaro: payAtCaro,
-              isGift: isGift,
-              giftPersonName:
-                isGift && giftProperty.gift_name ? giftProperty.gift_name : "",
-              giftPersonPhoneNumber:
-                isGift && giftProperty.gift_phoneNumber
-                  ? toEnglishDigit(giftProperty.gift_phoneNumber)
-                  : "",
-              giftPersonLat: isGift && coordinates ? coordinates[0] : "",
-              giftPersonLong: isGift && coordinates ? coordinates[1] : "",
-              giftPersonAddress:
-                isGift && addressName && addressName + accurateAddress,
-              code: codeValue,
-              useBalance: payBalance,
             },
             onStart: handleOpen,
-            onEnd: () => { },
+            onEnd: () => {},
             onError: (resp) => {
               if (resp.response?.data?.errors.length !== 0) {
                 toast.error(resp.response.data.errors[0]);
@@ -451,38 +388,12 @@ const CheckoutCart = () => {
               setFinalSubmitIsOnProcess(false);
             },
             toastMessage: true,
-            // onErrorMessage: "ثبت سفارش با خطا مواجه شد .",
             onSuccess: (resp) => {
               resetBasket();
-              if (resp.data.data?.hasPayment === true) {
-                if (
-                  resp.data.data?.payment?.gatewayTransporter?.descriptor?.url
-                ) {
-                  try {
-                    navigate(
-                      `/gateway-redirect?url=${resp.data.data.payment.gatewayTransporter.descriptor.url}`
-                    );
-                  } catch {
-                    setFinalSubmitIsOnProcess(false);
-                  }
-                }
-              } else {
-                toast.success("درخواست شما با موفقیت ثبت شد .");
-                try {
-                  navigate(
-                    "/general-order-details/" +
-                    resp.data?.data?.requestId +
-                    "&backUrl=/",
-                    {
-                      replace: true,
-                    }
-                  );
-                } catch {
-                  setFinalSubmitIsOnProcess(false);
-                }
+              if (resp.data.data.url) {
+                navigate(`/gateway-redirect?url=${resp.data.data.url}`);
               }
               handleClose();
-              // setFinalSubmitIsOnProcess(false);
             },
           });
         },
@@ -498,63 +409,6 @@ const CheckoutCart = () => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  const handleSetCodeInProducts = () => {
-    if (codeValue) {
-      apiCaller({
-        api: payment_apiCalls.apiCall_getFactor,
-        apiArguments: {
-          ...shopBasketData,
-          code: codeValue,
-        },
-        onStart: handleOpen,
-        onEnd: handleClose,
-        onSuccessMessage: "کد تخفیف با موفقیت ثبت شد",
-        onSuccess: (resp) => {
-          if (resp.status === 200 && resp.data.status == 1) {
-            setFactor(resp.data?.data);
-            setCodeValueError("");
-          } else {
-            setCodeValueError("");
-          }
-        },
-        onError: (err) => {
-          if (err?.response?.data?.errors?.length != 0) {
-            setCodeValueError(err?.response?.data?.errors?.[0]);
-          } else {
-            setCodeValueError("");
-          }
-          apiCaller({
-            api: payment_apiCalls.apiCall_getFactor,
-            apiArguments: {
-              ...shopBasketData,
-              code: "",
-            },
-            onStart: handleOpen,
-            onEnd: handleClose,
-            onSuccessMessage: "کد تخفیف با موفقیت ثبت شد",
-            onSuccess: (resp) => {
-              if (resp.status === 200 && resp.data.status == 1) {
-                setFactor(resp.data?.data);
-                setCodeValueError("");
-              } else {
-                setCodeValueError("");
-              }
-            },
-            onError: (err) => {
-              if (err?.response?.data?.errors?.length != 0) {
-                setCodeValueError(err?.response?.data?.errors?.[0]);
-              } else {
-                setCodeValueError("");
-              }
-            },
-          });
-        },
-      });
-    } else {
-      setCodeValueError("کد مورد نظر را وارد کنید");
-    }
   };
 
   const handleCheck = () => {
@@ -597,13 +451,9 @@ const CheckoutCart = () => {
       // style={{ paddingBottom: "60px" }}
       className="m-0 d-flex flex-column justify-content-start align-items-center w-100 hidden-scrollbar"
     >
-      {userToken &&
-        paymentWay &&
-        shopBasketData &&
-        shopBasketData?.items?.length > 0 && <CheckUserAuthorization />}
-      {paymentWay && <div className="divider2 mt-3"></div>}
-
-      {paymentWay && (
+      {userToken && <UserProfileInformation />}
+      {<div className="divider2 mt-3"></div>}
+      {
         <div className="flex flex-column w-100 mt-1">
           <SectionCalculation
             calculationIcon={shopping}
@@ -615,9 +465,6 @@ const CheckoutCart = () => {
             <>
               <RefrigeratorCakeSection factor={factor} />
             </>
-          )}
-          {shopBasketData && shopBasketData?.items?.length !== 0 && (
-            <ExtraProductSection />
           )}
           <Button
             variant="contained"
@@ -639,8 +486,9 @@ const CheckoutCart = () => {
             افزودن محصول جدید
           </Button>
         </div>
-      )}
-      {paymentWay && (
+      }
+
+      {
         <div className="flex flex-column w-100">
           {shopBasketData?.items?.length == 0 &&
             shopBasketData?.items?.filter((it) => it?.cartItemType == 4)
@@ -658,7 +506,7 @@ const CheckoutCart = () => {
           {/*  */}
           {/*  */}
           <>
-            {paymentWay && (
+            {
               <div className="w-100 d-flex flex-column">
                 {factor?.cartItems?.length > 0 &&
                   factor?.cartItems?.filter((item) => item.cartItemType == 2)
@@ -721,13 +569,13 @@ const CheckoutCart = () => {
                     </>
                   )}
               </div>
-            )}
+            }
           </>
           {/*  */}
           {/*  */}
           <CookiesSection factor={factor} />
         </div>
-      )}
+      }
 
       {shopBasketData && shopBasketData?.items?.length > 0 && (
         <>
@@ -767,7 +615,7 @@ const CheckoutCart = () => {
                 یک آدرس ایجاد کنید
               </div>
             )}
-          {!paymentWay && (
+          {
             <>
               {freeSendingOnlinePayment && (
                 <p className="mb-0 mt-2 text-danger fw-bold">
@@ -830,23 +678,22 @@ const CheckoutCart = () => {
                         پرداخت آنلاین
                       </span>
                       {/* {payBalance ? ( */}
-                        <label
-                          htmlFor="payAtHome-Checkbox"
-                          className="text-muted mt-1 fs-8 text-justify cursor-pointer"
-                        >
-                          <small className="text-muted  fs-8 text-justify">
-                            با انتخاب این گزینه مبلغ سفارش را آنلاین پرداخت کنید
-                            و{" "}
-                            {
-                              <span className="caro-color fw-bold">
-                                {branchData?.balanceCashBack} درصد اعتبار هدیه
-                              </span>
-                            }{" "}
-                            برای خرید بعدی استفاده کنید.
-                          </small>
-                        </label>
+                      <label
+                        htmlFor="payAtHome-Checkbox"
+                        className="text-muted mt-1 fs-8 text-justify cursor-pointer"
+                      >
+                        <small className="text-muted  fs-8 text-justify">
+                          با انتخاب این گزینه مبلغ سفارش را آنلاین پرداخت کنید و{" "}
+                          {
+                            <span className="caro-color fw-bold">
+                              {branchData?.balanceCashBack} درصد اعتبار هدیه
+                            </span>
+                          }{" "}
+                          برای خرید بعدی استفاده کنید.
+                        </small>
+                      </label>
                       {/* ) : ( */}
-                        {/* <label
+                      {/* <label
                           htmlFor="payAtHome-Checkbox"
                           className="text-muted mt-1 fs-8 text-justify cursor-pointer"
                         >
@@ -926,27 +773,27 @@ const CheckoutCart = () => {
                             </span>
                           )}
                           {/* {payBalance ? ( */}
-                            <label
-                              htmlFor="payAtCaro-Checkbox"
-                              className="text-muted fs-8 text-justify cursor-pointer"
-                              style={{ marginRight: "10px" }}
-                            >
-                              <small className="text-muted mt-1 fs-8 text-justify">
-                                با انتخاب این گزینه مبلغ سفارش را درب منزل
-                                پرداخت کنید و از{" "}
-                                {
-                                  <span className="caro-color fw-bold">
-                                    {
-                                      branchData?.balanceCashBackForInPersonPayment
-                                    }{" "}
-                                    درصد عتبار هدیه
-                                  </span>
-                                }{" "}
-                                برای خرید بعدی استفاده کنید.
-                              </small>
-                            </label>
+                          <label
+                            htmlFor="payAtCaro-Checkbox"
+                            className="text-muted fs-8 text-justify cursor-pointer"
+                            style={{ marginRight: "10px" }}
+                          >
+                            <small className="text-muted mt-1 fs-8 text-justify">
+                              با انتخاب این گزینه مبلغ سفارش را درب منزل پرداخت
+                              کنید و از{" "}
+                              {
+                                <span className="caro-color fw-bold">
+                                  {
+                                    branchData?.balanceCashBackForInPersonPayment
+                                  }{" "}
+                                  درصد عتبار هدیه
+                                </span>
+                              }{" "}
+                              برای خرید بعدی استفاده کنید.
+                            </small>
+                          </label>
                           {/* ) : ( */}
-                            {/* <label
+                          {/* <label
                               htmlFor="payAtCaro-Checkbox"
                               className="text-muted fs-8 text-justify cursor-pointer"
                             >
@@ -963,8 +810,8 @@ const CheckoutCart = () => {
                 </div>
               </div>
             </>
-          )}
-          {paymentWay && (
+          }
+          {
             <>
               <div className="mt-3 w-100">
                 <div className="d-flex gap-2 align-items-center">
@@ -976,56 +823,6 @@ const CheckoutCart = () => {
                   </h6>
                 </div>
                 <Box className="w-100" sx={{ width: "100%" }}>
-                  <Box className="w-100 mt-3">
-                    <Tabs
-                      value={value}
-                      onChange={handleChange}
-                      aria-label="basic tabs example"
-                      sx={{
-                        minHeight: "3rem",
-                        "& .MuiTabs-indicator": {
-                          display: "none",
-                        },
-                      }}
-                    >
-                      <Tab
-                        onClick={() => {
-                          setPayAtCaro(false);
-                          setPayAtHome(false);
-                          setIsGift(false);
-                        }}
-                        label="برای خودم"
-                        {...a11yProps(0)}
-                        className="TabItem"
-                        sx={getTabStyle(value === 0)}
-                      />
-                      <Tab
-                        onClick={() => {
-                          setPayAtCaro(true);
-                          setPayAtHome(false);
-                          setIsGift(false);
-                        }}
-                        label=" درب دونات"
-                        {...a11yProps(1)}
-                        className="TabItem"
-                        sx={getTabStyle(value === 1)}
-                      />
-                      <Tab
-                        onClick={() => {
-                          if (!isGift) {
-                            setPayAtCaro(false);
-                            setPayAtHome(false);
-                          }
-                          setIsGift(true);
-                        }}
-                        label="برای دیگری"
-                        {...a11yProps(2)}
-                        className="TabItem"
-                        sx={getTabStyle(value === 2)}
-                      />
-                    </Tabs>
-                  </Box>
-
                   <div
                     role="tabpanel"
                     hidden={value !== 0}
@@ -1089,13 +886,13 @@ const CheckoutCart = () => {
                                       borderColor: "#CB7640",
                                     },
                                     "&:hover .MuiOutlinedInput-notchedOutline":
-                                    {
-                                      borderColor: "#CB7640",
-                                    },
+                                      {
+                                        borderColor: "#CB7640",
+                                      },
                                     "&.Mui-focused .MuiOutlinedInput-notchedOutline":
-                                    {
-                                      borderColor: "#CB7640",
-                                    },
+                                      {
+                                        borderColor: "#CB7640",
+                                      },
                                     ".MuiSvgIcon-root ": {
                                       fill: "#CB7640 !important",
                                       fontSize: "2.5rem",
@@ -1113,29 +910,6 @@ const CheckoutCart = () => {
                                   ))}
                                 </Select>
                               </FormControl>
-                              <div
-                                style={{
-                                  minWidth: "fit-content",
-                                }}
-                              >
-                                {userToken ? (
-                                  <Link
-                                    to="/add-address?returnUrl=/checkout-cart"
-                                    className="fs-8 text-decoration-none p-2 text-white rounded-2"
-                                    style={{ backgroundColor: "#CB7640" }}
-                                  >
-                                    ویرایش آدرس
-                                  </Link>
-                                ) : (
-                                  <Link
-                                    to="/register?returnUrl=/add-address&returnPage=checkout-cart"
-                                    className="fs-8 text-decoration-none p-2 text-white rounded-2"
-                                    style={{ backgroundColor: "#CB7640" }}
-                                  >
-                                    ویرایش آدرس
-                                  </Link>
-                                )}
-                              </div>
                             </div>
                           )}
                         </div>
@@ -1287,7 +1061,7 @@ const CheckoutCart = () => {
                 </Box>
               </div>
             </>
-          )}
+          }
 
           {userToken && (
             <>
@@ -1325,7 +1099,7 @@ const CheckoutCart = () => {
                   </div>
                 </div>
               </div> */}
-              {!paymentWay && canUserUseBalance && (
+              {canUserUseBalance && (
                 <div className="w-100 m-0 p-0 mt-3">
                   <label
                     htmlFor="paybalance-Checkbox"
@@ -1359,7 +1133,7 @@ const CheckoutCart = () => {
             </>
           )}
 
-          {!paymentWay && factor && factor?.cartItems?.length > 0 && (
+          {factor && factor?.cartItems?.length > 0 && (
             <>
               <SectionCalculation
                 calculationIcon={factorsvg}
@@ -1373,22 +1147,6 @@ const CheckoutCart = () => {
                   borderRadius: "10px",
                 }}
               >
-                {/* <p>{!payAtHome && !payAtCaro && !isGift && 'hi'}</p> */}
-                {factor?.discountAmount != 0 && (
-                  <SectionCalculation
-                    calculationText=" مبلغ کل"
-                    calculationTextStyle="fs-6"
-                    calculationPriceStyle="fs-6"
-                    borderBottom={true}
-                    isOnline={true}
-                    calculationPrice={
-                      factor?.discountAmount &&
-                      formatNumber(
-                        factor?.discountAmount + factor?.finalPrice ?? 0
-                      ) + " تومان "
-                    }
-                  />
-                )}
                 <SectionCalculation
                   calculationText="مبلغ سفارش"
                   calculationTextStyle="priceSize"
@@ -1402,328 +1160,30 @@ const CheckoutCart = () => {
                       : formatNumber(factor?.finalPrice ?? 0) + " تومان "
                   }
                 />
-                {!payAtCaro && (
-                  <SectionCalculation
-                    calculationText=" هزینه ارسال"
-                    calculationTextStyle="priceSize"
-                    calculationPriceStyle="priceSize"
-                    borderBottom={true}
-                    payAtCaro={payAtCaro}
-                    isOnline={handleCheck()}
-                    calculationPrice={
-                      payAtCaro || payAtHome
-                        ? formatNumber(sendPrice ?? 0) + " تومان "
-                        : formatNumber(sendPrice ?? 0) + " تومان "
-                    }
-                  />
-                )}
-                <SectionCalculation
-                  calculationText=" مبلغ کل"
-                  calculationTextStyle="priceSize"
-                  calculationPriceStyle="priceSize"
-                  borderBottom={true}
-                  isOnline={true}
-                  calculationPrice={
-                    formatNumber(
-                      factor?.finalPrice + (payAtCaro ? 0 : sendPrice) ?? 0
-                    ) + " تومان"
-                  }
-                />
-                {balanceValue && payBalance ? (
-                  <SectionCalculation
-                    calculationText=" مبلغ کیف پول"
-                    calculationTextStyle="text-danger priceSize"
-                    calculationPriceStyle="text-danger priceSize"
-                    borderBottom={true}
-                    payAtCaro={payAtCaro}
-                    isOnline={handleCheck()}
-                    calculationPrice={
-                      formatNumber(balanceValue ?? 0) + " تومان "
-                    }
-                  />
-                ) : null}
-                {factor?.discountAmount != 0 && (
-                  <>
-                    <SectionCalculation
-                      calculationText=" مبلغ تخفیف"
-                      calculationTextStyle="priceSize"
-                      calculationPriceStyle="priceSize"
-                      borderBottom={true}
-                      calculationPrice={
-                        factor?.discountAmount &&
-                        formatNumber(factor?.discountAmount ?? 0) + " تومان "
-                      }
-                    />
-                  </>
-                )}
-                <SectionCalculation
-                  calculationText="مبلغ قابل پرداخت"
-                  calculationTextStyle="priceSize"
-                  calculationPriceStyle="priceSize"
-                  borderBottom={true}
-                  payAtHome={payAtHome}
-                  payAtCaro={payAtCaro}
-                  isGift={isGift}
-                  discountForOnlinePayment={factor?.discountForOnlinePayment}
-                  finalPriceWithDiscountForOnlinePayment={
-                    factor?.finalPriceWithDiscountForOnlinePayment
-                  }
-                  sendPrice={payAtCaro ? 0 : sendPrice}
-                  calculationPrice={
-                    factor?.finalPrice
-                      ? factor?.finalPrice == -1
-                        ? ""
-                        : formatNumber(
-                          factor?.discountForOnlinePayment !== 0 &&
-                            !handleCheck()
-                            ? !payAtCaro && payAtHome
-                              ? balanceValue != 0 && payBalance
-                                ? balanceValue >
-                                  factor?.finalPrice + sendPrice
-                                  ? 0
-                                  : factor?.finalPrice +
-                                  sendPrice -
-                                  balanceValue
-                                : factor?.finalPrice + sendPrice
-                              : factor?.finalPriceWithDiscountForOnlinePayment +
-                              sendPrice
-                            : handleCheck()
-                              ? !payAtCaro && !payAtHome
-                                ? balanceValue != 0 && payBalance
-                                  ? balanceValue >
-                                    factor?.finalPrice + sendPrice
-                                    ? 0
-                                    : factor?.finalPrice +
-                                    sendPrice -
-                                    balanceValue
-                                  : factor?.finalPrice + sendPrice
-                                : balanceValue != 0 && payBalance
-                                  ? balanceValue > factor?.finalPrice
-                                    ? 0
-                                    : factor?.finalPrice - balanceValue
-                                  : factor?.finalPrice
-                              : balanceValue != 0 && payBalance
-                                ? balanceValue >
-                                  factor?.finalPrice +
-                                  (payAtCaro
-                                    ? 0
-                                    : factor?.sendPrice == 0
-                                      ? 0
-                                      : payAtHome || factor?.finalPrice == -1
-                                        ? getSendPrice(sendPrice)
-                                        : 0)
-                                  ? 0
-                                  : factor?.finalPrice +
-                                  (payAtCaro
-                                    ? 0
-                                    : factor?.sendPrice == 0
-                                      ? 0
-                                      : payAtHome || factor?.finalPrice == -1
-                                        ? getSendPrice(sendPrice)
-                                        : 0) -
-                                  balanceValue
-                                : factor?.finalPrice +
-                                (payAtCaro
-                                  ? 0
-                                  : factor?.sendPrice == 0
-                                    ? 0
-                                    : payAtHome || factor?.finalPrice == -1
-                                      ? getSendPrice(sendPrice)
-                                      : 0)
-                        ) + " تومان "
-                      : ""
-                  }
-                />
-                <></>
-                {/* // <SectionCalculation
-                //   calculationText="مبلغ بازگشتی به کیف پول شما"
-                //   payAtCaro={payAtCaro}
-                //   isOnline={handleCheck()}
-                //   calculationPrice={
-                //     handleCheck()
-                //       ? formatNumber(
-                //         (factor?.finalPrice * balanceCashBack) / 100 ?? 0
-                //       ) + " تومان "
-                //       : formatNumber(
-                //         (factor?.finalPrice *
-                //           balanceCashBackForInPersonPayment) /
-                //         100 ?? 0
-                //       ) + " تومان "
-                //   }
-                // /> */}
-                {factor?.discountForOnlinePayment !== 0 && (
-                  <span className="text-danger">
-                    در صورت پرداخت آنلاین سفارش شما شامل{" "}
-                    {factor?.discountForOnlinePayment}% تخفیف میشود
-                  </span>
-                )}
-              </div>
-              <div className="d-flex justify-content-between align-items-center w-100 mt-3">
-                <p className="priceSize">
-                  <span className="text-success">
-                    {handleCheck()
-                      ? formatNumber(
-                        (factor?.finalPrice * balanceCashBack) / 100 ?? 0
-                      ) + " تومان "
-                      : formatNumber(
-                        (factor?.finalPrice *
-                          balanceCashBackForInPersonPayment) /
-                        100 ?? 0
-                      ) + " تومان "}
-                  </span>{" "}
-                  کیف پول شما برای خرید بعدی شارژ میشود.
-                </p>
               </div>
             </>
           )}
-          {paymentWay ? (
-            <div className=" flex flex-column  w-100">
-              <Button
-                variant="contained"
-                color="primary"
-                className=" py-3 w-100 rounded-2 mt-3"
-                size="large"
-                onClick={() => {
-                  if (!userData?.customerBirthDate && userToken) {
-                    handleToggleBirthDayUser();
-                    return false;
-                  }
-                  if (!userToken) {
-                    navigate("/register?returnUrl=/checkout-cart");
-                    return;
-                  }
-                  if (
-                    !shopBasketData?.items ||
-                    shopBasketData?.items?.length == 0
-                  ) {
-                    toast.warn("برای ثبت سفارش باید ابتدا محصول انتخاب کنید .");
-                    return;
-                  }
-                  if (!selectedAdressId && !payAtCaro && !isGift) {
-                    toast.warn("لطفا یک آدرس انتخاب کنید .");
-                    return;
-                  }
-                  if (adressesList?.length == 0) {
-                    toast.warn("کاربر گرامی هنوز هیچ آدرسی اضافه نکردید");
-                    return;
-                  }
-                  if (isGift) {
-                    console.log(!giftProperty.gift_name, "dfsasdf");
-                    if (
-                      !giftProperty.gift_name ||
-                      !giftProperty.gift_phoneNumber ||
-                      !accurateAddress
-                    ) {
-                      toast.warning("تمامی اطلاعات شخص مورد نظر اجباری میباشد");
-                    } else {
-                      if (giftProperty.gift_phoneNumber?.length !== 11) {
-                        toast.warning(
-                          "تعداد ارقارم شماره تلفن نباید کمتر تر از 11 رقم باشد"
-                        );
-                      } else {
-                        setPaymentWay(false);
-                      }
-                    }
-                  } else {
-                    setPaymentWay(false);
-                  }
-                }}
-              >
-                <span className="me-1">
-                  {!userToken
-                    ? "برای خرید لطفا ابتدا وارد شوید."
-                    : "ادامه خرید"}
-                </span>
-              </Button>
-            </div>
-          ) : (
-            <div className=" flex flex-column justify-content-center align-align-align-items-center w-100 mt-2">
-              <Button
-                variant="contained"
-                color="primary"
-                className=" py-3 w-100"
-                size="large"
-                disabled={finalSubmitIsOnProcess}
-                onClick={handleSubmit}
-              >
-                <span className="me-1">
-                  {" "}
-                  {userToken
-                    ? payAtHome || factor?.finalPrice == -1
-                      ? "ثبت سفارش"
-                      : "پرداخت آنلاین"
-                    : ""}
-                </span>
-                {userToken &&
-                  factor?.finalPrice &&
-                  `(${factor?.finalPrice
-                    ? factor?.finalPrice == -1
-                      ? ""
-                      : formatNumber(
-                        factor?.discountForOnlinePayment !== 0 &&
-                          !handleCheck()
-                          ? !payAtCaro && payAtHome
-                            ? balanceValue != 0 && payBalance
-                              ? balanceValue >
-                                factor?.finalPrice + sendPrice
-                                ? 0
-                                : factor?.finalPrice +
-                                sendPrice -
-                                balanceValue
-                              : factor?.finalPrice + sendPrice
-                            : factor?.finalPriceWithDiscountForOnlinePayment +
-                            sendPrice
-                          : handleCheck()
-                            ? !payAtCaro && !payAtHome
-                              ? balanceValue != 0 && payBalance
-                                ? balanceValue >
-                                  factor?.finalPrice + sendPrice
-                                  ? 0
-                                  : factor?.finalPrice +
-                                  sendPrice -
-                                  balanceValue
-                                : factor?.finalPrice + sendPrice
-                              : balanceValue != 0 && payBalance
-                                ? balanceValue > factor?.finalPrice
-                                  ? 0
-                                  : factor?.finalPrice - balanceValue
-                                : factor?.finalPrice
-                            : balanceValue != 0 && payBalance
-                              ? balanceValue >
-                                factor?.finalPrice +
-                                (payAtCaro
-                                  ? 0
-                                  : factor?.sendPrice == 0
-                                    ? 0
-                                    : payAtHome || factor?.finalPrice == -1
-                                      ? getSendPrice(sendPrice)
-                                      : 0)
-                                ? 0
-                                : factor?.finalPrice +
-                                (payAtCaro
-                                  ? 0
-                                  : factor?.sendPrice == 0
-                                    ? 0
-                                    : payAtHome || factor?.finalPrice == -1
-                                      ? getSendPrice(sendPrice)
-                                      : 0) -
-                                balanceValue
-                              : factor?.finalPrice +
-                              (payAtCaro
-                                ? 0
-                                : factor?.sendPrice == 0
-                                  ? 0
-                                  : payAtHome || factor?.finalPrice == -1
-                                    ? getSendPrice(sendPrice)
-                                    : 0)
-                      ) + " تومان "
-                    : ""
-                  })`}
+          <div className=" flex flex-column justify-content-center align-align-align-items-center w-100 mt-4">
+            <Button
+              variant="contained"
+              color="primary"
+              className=" py-3 w-100"
+              size="large"
+              disabled={finalSubmitIsOnProcess}
+              onClick={handleSubmit}
+            >
+              <span className="me-1">
+                {" "}
+                {userToken
+                  ? payAtHome || factor?.finalPrice == -1
+                    ? "ثبت سفارش"
+                    : "پرداخت آنلاین"
+                  : ""}
+              </span>
 
-                {!userToken && "برای خرید لطفا ابتدا وارد شوید."}
-              </Button>
-            </div>
-          )}
+              {!userToken && "برای خرید لطفا ابتدا وارد شوید."}
+            </Button>
+          </div>
         </>
       )}
       <br />

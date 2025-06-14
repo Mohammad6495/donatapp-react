@@ -26,24 +26,11 @@ const SuccessfullPaymentPage = () => {
   }, [])
 
   const handleTrackOrder = () => {
-    if (type == 0) {
+
       navigate(
-        "/track-tomorrow-cake-order?orderId=" +
-        requestId +
-        "&backUrl=/" +
-        "&land=/"
+        "/general-order-details/" + paymentId + "?backUrl=/" + "&land=/"
       );
-    }
-    if (type == 1) {
-      navigate(
-        "/general-order-details/" + requestId + "?backUrl=/" + "&land=/"
-      );
-    }
-    if (type == 7) {
-      navigate(
-        "//profile"
-      );
-    }
+
   };
 
   return (

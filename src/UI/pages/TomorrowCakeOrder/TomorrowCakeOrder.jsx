@@ -76,7 +76,7 @@ const TomorrowCakeOrder = () => {
     apiCaller({
       api: saletTime_apiCalls.apiCall_getSaleTime,
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data.status == 1) {
+        if (resp.status === 200 && resp.data.statusCode == 200) {
           const list = resp.data.data.map((it) => {
             // WAY 1 :
             const obj = {
@@ -111,7 +111,7 @@ const TomorrowCakeOrder = () => {
     apiCaller({
       api: tomorrowCake_apiCalls.apiCall_getTimesStatus,
       onSuccess: (resp) => {
-        if (resp.status == 200 && resp?.data?.status == 1) {
+        if (resp.status == 200 && resp?.data?.statusCode == 200) {
           setTimeStatus(resp?.data?.data);
         }
       },
@@ -125,7 +125,7 @@ const TomorrowCakeOrder = () => {
     apiCaller({
       api: customerAddress_apiCalls.apiCall_getCustomerAddressList,
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data?.status == 1) {
+        if (resp.status === 200 && resp.data?.statusCode == 200) {
           setAdressesList(resp.data.data);
         }
       },
@@ -163,7 +163,7 @@ const TomorrowCakeOrder = () => {
         CategoryId: undefined,
       },
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data?.status == 1) {
+        if (resp.status === 200 && resp.data?.statusCode == 200) {
           setExtraProducts(resp.data.data);
         }
       },
@@ -172,23 +172,7 @@ const TomorrowCakeOrder = () => {
   useEffect(() => {
     getExtraProducts();
   }, []);
-  const getAvailabilityApi = () => {
-    apiCaller({
-      api: branches_apiCalls.apiCall_getBranchAvailability,
-      onSuccess: (resp) => {
-        if (resp?.status === 200 && resp?.data.status == 1) {
-          setIsAvailability(resp?.data?.data);
-        }
-      },
-      onError: (err) => {},
-      onStart: handleOpen,
-      onEnd: handleClose,
-    });
-  };
-  /////////////
-  useEffect(() => {
-    getAvailabilityApi();
-  }, []);
+
   /////////
   const { userToken } = useAuthContext();
   useEffect(() => {

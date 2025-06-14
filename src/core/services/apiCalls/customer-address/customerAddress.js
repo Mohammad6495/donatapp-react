@@ -46,15 +46,13 @@ export const apiCall_customerAddressDetail = async (id) => {
 };
 
 export const apiCall_deleteAddress = async (id) => {
-  return http.post(customerAddress_apis.deleteCustomerAddress + `?id=${id}`);
+  return http.delete(customerAddress_apis.deleteCustomerAddress + `?id=${id}`);
 };
 
 export const apiCall_setDefaultAddress = async (id) => {
-  return http.post(customerAddress_apis.setDefaultAddress + `?id=${id}`);
+  return http.put(customerAddress_apis.setDefaultAddress + `?id=${id}`);
 };
 
 export const apiCall_getAddressName = async ({ lat = "", lng = "" }) => {
-  return http.post(
-    customerAddress_apis.getAddressName + `?lat=${lat}&lng=${lng}`
-  );
+  return http.post(customerAddress_apis.getAddressName, { lat, lng });
 };

@@ -504,7 +504,7 @@ const RegisterComment = () => {
             api: answer_apiCaller.apiCall_Canswers,
             apiArguments: orderId,
             onSuccess: (resp) => {
-                if (resp?.status == 200 && resp?.data?.status == 1) {
+                if (resp?.status == 200 && resp?.data?.statusCode == 200) {
                     if (resp?.data?.data == true) {
                         apiCaller({
                             api: answer_apiCaller.apiCall_CreateAnswers,
@@ -512,7 +512,7 @@ const RegisterComment = () => {
                             onStart: handleOpen,
                             onEnd: handleClose,
                             onSuccess: (resp) => {
-                                if (resp?.status == 200 && resp?.data?.status == 1) {
+                                if (resp?.status == 200 && resp?.data?.statusCode == 200) {
                                     navigate('/?pageId=0');
                                     toast.success('نظر شما با موفقیت ثبت شد')
                                 }

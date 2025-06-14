@@ -53,7 +53,7 @@ const CreamyCookie = () => {
     apiCaller({
       api: cookie_apiCalls.apiCall_getAllCategories,
       onSuccess: (resp) => {
-        if (resp?.status == 200 && resp?.data?.status == 1) {
+        if (resp?.status == 200 && resp?.data?.statusCode == 200) {
           setCategoriesList(resp?.data?.data);
         }
       },

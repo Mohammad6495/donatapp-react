@@ -36,8 +36,7 @@ const actionTypes = {
 
 ////////////
 const RefrigeratorCake = () => {
-  const { favoriteData } =
-  useFavoriteContext();
+  const { favoriteData } = useFavoriteContext();
   const { width } = useWindowDimensions();
   const navigate = useNavigate();
   const location = useLocation();
@@ -197,8 +196,9 @@ const RefrigeratorCake = () => {
   const getAllCakeSizeData = () => {
     apiCaller({
       api: home_apiCalls.apiCall_getAllCakeSize,
+      apiArguments: 1,
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data.status == 1) {
+        if (resp.status === 200 && resp.data.statusCode == 200) {
           const newLIstItems = resp?.data?.data.map((item) => ({
             ...item,
             isFilterActive: false,
@@ -206,7 +206,7 @@ const RefrigeratorCake = () => {
           setRefrigeratorCakeFilterItems(newLIstItems);
         }
       },
-      onError: (err) => { },
+      onError: (err) => {},
       onStart: handleOpen,
       onEnd: handleClose,
     });
@@ -219,16 +219,11 @@ const RefrigeratorCake = () => {
   /////
   useEffect(() => {
     if (refrigeratorCakeFilterItems) {
-      const acitveFilters = refrigeratorCakeFilterItems?.filter(
-        (item) => item.isFilterActive === true
-      );
-      const array_idList = acitveFilters.map((item) => item.id);
-      const sizeId = array_idList.join("_");
       apiCaller({
         api: refrigeratorCake_apiCalls.apiCall_getAllRefrigeratorCake,
-        apiArguments: sizeId,
+        apiArguments: 1,
         onSuccess: (resp) => {
-          if (resp.status === 200 && resp.data.status == 1) {
+          if (resp.status === 200 && resp.data.statusCode == 200) {
             const data = [...resp?.data?.data];
             setAllRefrigeratorCake(data);
             setUntouchedRefrigeratorCakeData(data);
@@ -270,7 +265,7 @@ const RefrigeratorCake = () => {
       }
       if (typeof qo.sizeIdList !== "undefined") {
         if (qo.sizeIdList.split(",").length > 0) {
-          if (!qo.sizeIdList.split(",").includes(cake.cakeSizeId.toString())) {
+          if (!qo.sizeIdList.split(",").includes(cake.category)) {
             canSelectCake = false;
           }
         }
@@ -339,7 +334,6 @@ const RefrigeratorCake = () => {
     }
     setRefrigeratorCakeFilterItems(clonedFilterItems);
   };
-
 
   // handleRemoveAllFilter
   const handleRemoveAllFilter = () => {
@@ -433,19 +427,19 @@ const RefrigeratorCake = () => {
     // دریافت لیست sizeIdList از پارامترهای جستجو
     const sizeIdList =
       qo?.sizeIdList?.length > 0
-        ? qo?.sizeIdList?.split(",").map((it) => Number(it))
+        ? qo?.sizeIdList?.split(",").map((it) => String(it))
         : [];
 
     // بررسی اینکه آیا sizeId در لیست وجود دارد یا نه
-    const sizeIdNumber = Number(sizeId);
-    const isSelected = sizeIdList.includes(sizeIdNumber);
+    const sizeIdString = String(sizeId);
+    const isSelected = sizeIdList.includes(sizeIdString);
 
     if (isSelected) {
       // اگر sizeId در لیست است، حذف آن
       delete qo.sizeIdList;
     } else {
       // اگر sizeId در لیست نیست، انتخاب آن و حذف بقیه آیتم‌ها
-      qo.sizeIdList = sizeIdNumber.toString();
+      qo.sizeIdList = sizeIdString
     }
 
     // ساختن رشته جدید جستجو و هدایت به URL جدید
@@ -453,34 +447,6 @@ const RefrigeratorCake = () => {
     navigate(location.pathname + newQs);
   };
 
-
-  const sendVisitToApi = () => {
-    const ipurl = window.location.host + location.pathname;
-    fetch("https://api.ipify.org?format=json")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok")
-      }
-      return response.json()
-    })
-    .then((data) => {
-      apiCaller({
-        api: visit_apiCaller.apiCall_createdVisit,
-        apiArguments: {
-          webPage: 0,
-          ip: data.ip,
-          domain: ipurl
-        },
-      });
-    })
-    .catch((error) => {
-      console.error("Error fetching IP:", error)
-    })
-  }
-
-  useEffect(() => {
-    sendVisitToApi()
-  }, [location.pathname])
 
   //===============================//
 
@@ -491,7 +457,7 @@ const RefrigeratorCake = () => {
     >
       {canShowFilteringTools() && (
         <>
-            <div
+          <div
             style={{
               overflowY: "auto",
               position: "fixed",
@@ -501,88 +467,59 @@ const RefrigeratorCake = () => {
               right: 0,
               left: 0,
               maxWidth: "576px",
-              margin: '0 auto'
+              margin: "0 auto",
             }}
             className=" px-4  d-flex flex-column w-100"
           >
+            <div className="d-flex  align-items-stretch justify-content-between gap-2">
+              {refrigeratorCakeFilterItems?.map((item) => (
+                <RefrigeratorCakeFilterItem
+                  key={item?.id}
+                  itemId={item?.id}
+                  itemText={item?.title}
+                  itemImg={item?.image}
+                  isActive={isSizeIdSelected(item.id)}
+                  filterHandler={selectSizeId}
+                />
+              ))}
+            </div>
 
-          <div className="d-flex justify-content-between align-items-stretch">
-            {refrigeratorCakeFilterItems?.map((item) => (
-              <RefrigeratorCakeFilterItem
-                key={item?.id}
-                itemId={item?.id}
-                itemText={item?.title}
-                itemImg={item?.logo}
-                isActive={isSizeIdSelected(item.id)}
-                filterHandler={selectSizeId}
-              />
-            ))}
-          </div>
-
-          <div
-            style={{ overflowX: "auto" }}
-            className="d-flex justify-content-start align-items-center w-100 cursor-pointer my-2 py-1 refrigerator-cake-thin-scrollbar"
-          >
-            <div className="d-flex justify-content-start align-items-center gap-1 noselect">
-              {!isFetching && showFilteredItem && (
-                <div
-                  style={{ backgroundColor: "#ccc" }}
-                  className="d-flex justify-content-between align-items-center py-1 px-2 rounded fs-9 mx-1"
-                >
-                  <span className="d-flex justify-content-center align-items-center text-nowrap fs-8 me-1">
-                    قیمت از {selectedRangeValue[0]}
-                  </span>
-                  <span className="d-flex justify-content-center align-items-center text-nowrap fs-8">
-                    تا {selectedRangeValue[1]}
-                  </span>
-                  <Close onClick={handleRemoveFilterItem} fontSize="small" />
-                </div>
-              )}
-              {!isFetching && showSelectedItems.length > 0 && (
-                <div
-                  // key={indx}
-                  style={{ backgroundColor: "#ccc" }}
-                  className="d-flex justify-content-center align-items-center py-1 px-2 rounded fs-9 mx-1"
-                >
-                  <span className="text-nowrap">
-                    {showSelectedItems.toString()}
-                  </span>
-                  <Close
-                    // onClick={handleDeleteCheckboxeFilteringItems}
-                    fontSize="small"
-                  />
-                </div>
-              )}
-              {!isFetching && weightSelectValue != 0 && (
-                <div
-                  style={{ backgroundColor: "#ccc" }}
-                  className="d-flex justify-content-center align-items-center py-1 px-2 rounded fs-9"
-                >
-                  {weightSelectValue == 1 && (
-                    <span className="text-nowrap">کمتر از 500 گرم</span>
-                  )}
-                  {weightSelectValue == 2 && (
-                    <span className="text-nowrap">بین 500 تا 1000 گرم</span>
-                  )}
-                  {weightSelectValue == 3 && (
-                    <span className="text-nowrap">بین 1000 تا 2000 گرم</span>
-                  )}
-                  {weightSelectValue == 4 && (
-                    <span className="text-nowrap">بین 2000 تا 3000 گرم</span>
-                  )}
-                  {weightSelectValue == 5 && (
-                    <span className="text-nowrap">بیش از 3000 گرم</span>
-                  )}
-                  <Close
-                    onClick={handleDeleteWeightFilteringItems}
-                    fontSize="small"
-                  />
-                </div>
-              )}
+            <div
+              style={{ overflowX: "auto" }}
+              className="d-flex justify-content-start align-items-center w-100 cursor-pointer my-2 py-1 refrigerator-cake-thin-scrollbar"
+            >
+              <div className="d-flex justify-content-start align-items-center gap-1 noselect">
+                {!isFetching && showFilteredItem && (
+                  <div
+                    style={{ backgroundColor: "#ccc" }}
+                    className="d-flex justify-content-between align-items-center py-1 px-2 rounded fs-9 mx-1"
+                  >
+                    <span className="d-flex justify-content-center align-items-center text-nowrap fs-8 me-1">
+                      قیمت از {selectedRangeValue[0]}
+                    </span>
+                    <span className="d-flex justify-content-center align-items-center text-nowrap fs-8">
+                      تا {selectedRangeValue[1]}
+                    </span>
+                    <Close onClick={handleRemoveFilterItem} fontSize="small" />
+                  </div>
+                )}
+                {!isFetching && showSelectedItems.length > 0 && (
+                  <div
+                    style={{ backgroundColor: "#ccc" }}
+                    className="d-flex justify-content-center align-items-center py-1 px-2 rounded fs-9 mx-1"
+                  >
+                    <span className="text-nowrap">
+                      {showSelectedItems.toString()}
+                    </span>
+                    <Close
+                      fontSize="small"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-          </div>
-          <div className="" style={{ marginTop: "80px" }}></div>
+          <div className="" style={{ marginTop: "100px" }}></div>
 
           {/* Start Filter Drawer */}
           <RefrigeratorCakeFilterDrawer

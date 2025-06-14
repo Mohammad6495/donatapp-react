@@ -338,3 +338,13 @@ export const toEnglishDigit = function (str) {
   }
   return newStr;
 };
+
+
+export const convertPersianTime = (time) => {
+  if (time) {
+    const result = moment(time).locale('fa').format("dddd DD MMMM jYYYY");
+    return result;
+  } else {
+    return "---";
+  }
+};

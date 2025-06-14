@@ -289,7 +289,7 @@ const CakeOrderUpsert = () => {
     apiCaller({
       api: cakeOrder_apiCaller.apiCall_getTypes,
       onSuccess: (resp) => {
-        if (resp?.status == 200 && resp?.data.status == 1) {
+        if (resp?.status == 200 && resp?.data.statusCode == 200) {
           setAllCakesPrintType(resp?.data?.data);
         }
       },
@@ -301,7 +301,7 @@ const CakeOrderUpsert = () => {
     apiCaller({
       api: tomorrowCake_apiCalls?.apiCall_getAllTomorrowCake,
       onSuccess: (resp) => {
-        if (resp?.status == 200 && resp?.data.status == 1) {
+        if (resp?.status == 200 && resp?.data.statusCode == 200) {
           setAllCakes(resp?.data?.data);
         }
       },
@@ -315,7 +315,7 @@ const CakeOrderUpsert = () => {
     apiCaller({
       api: cakeOrder_apiCaller.apiCall_getOrder,
       onSuccess: (resp) => {
-        if (resp?.status == 200 && resp?.data.status == 1) {
+        if (resp?.status == 200 && resp?.data.statusCode == 200) {
           setAllCakesPopular(resp?.data?.data);
         }
       },
@@ -328,7 +328,7 @@ const CakeOrderUpsert = () => {
     apiCaller({
       api: cakeOrder_apiCaller?.apiCall_getSetting,
       onSuccess: (resp) => {
-        if (resp?.status == 200 && resp?.data.status == 1) {
+        if (resp?.status == 200 && resp?.data.statusCode == 200) {
           setSetting(resp?.data?.data);
         }
       },

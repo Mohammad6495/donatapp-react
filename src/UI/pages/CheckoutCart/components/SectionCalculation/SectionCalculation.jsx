@@ -32,7 +32,7 @@ const SectionCalculation = ({
         {calculationIcon && <div className="SectionCalculationIcon">
           <img width={16} height={16} src={calculationIcon} alt="motorcycle" />
         </div>}
-        <h6 className={`mb-0 fs-7 fw-bold mb-0 ${calculationTextStyle}`}>{calculationText}</h6>
+        <h6 className={`mb-0 fs-6 fw-bold mb-0 ${calculationTextStyle}`}>{calculationText}</h6>
         {calculationCounter && <span className="pt-1 calculationConsignment">{calculationCounter} مرسوله</span>}
       </div>
       {(!isGift || isGift) &&

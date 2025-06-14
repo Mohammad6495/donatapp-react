@@ -80,35 +80,35 @@ const CreamyCookiesContextProvider = ({ children }) => {
 
   // Get All Creamy Cookies
   const getAllCreamyCookies = () => {
-    apiCaller({
-      api: cookie_apiCalls.apiCall_getAllCreamyCookie,
-      apiArguments: categoryId,
-      onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data.statusCode === 200) {
-          const filterList = resp?.data?.data.filter(a=>a.cookieType == 1);
-          setAllCreamyCookies(filterList);
-        }
-      },
-      onError: (err) => {},
-      onStart: handleOpen,
-      onEnd: handleClose,
-    });
+    // apiCaller({
+    //   api: cookie_apiCalls.apiCall_getAllCreamyCookie,
+    //   apiArguments: categoryId,
+    //   onSuccess: (resp) => {
+    //     if (resp.status === 200 && resp.data.statusCode === 200) {
+    //       const filterList = resp?.data?.data.filter(a=>a.cookieType == 1);
+    //       setAllCreamyCookies(filterList);
+    //     }
+    //   },
+    //   onError: (err) => {},
+    //   onStart: handleOpen,
+    //   onEnd: handleClose,
+    // });
   };
 
   //  Get Creamy Cookie Price
   const getCreamyCookiesPrice = () => {
-    apiCaller({
-      api: branches_apiCalls.apiCall_getcreamycookieprice,
-      apiArguments: 1,
-      onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data.statusCode === 200) {
-          setCreamyCookiePrice(resp?.data?.data);
-        }
-      },
-      onError: (err) => {},
-      onStart: handleOpen,
-      onEnd: handleClose,
-    });
+    // apiCaller({
+    //   api: branches_apiCalls.apiCall_getcreamycookieprice,
+    //   apiArguments: 1,
+    //   onSuccess: (resp) => {
+    //     if (resp.status === 200 && resp.data.statusCode === 200) {
+    //       setCreamyCookiePrice(resp?.data?.data);
+    //     }
+    //   },
+    //   onError: (err) => {},
+    //   onStart: handleOpen,
+    //   onEnd: handleClose,
+    // });
   };
 
   useEffect(() => {

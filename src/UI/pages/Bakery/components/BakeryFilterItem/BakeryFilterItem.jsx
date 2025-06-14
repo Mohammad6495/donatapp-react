@@ -2,6 +2,7 @@ import React from "react";
 import defImg from "../../../../../assets/images/No_Img.jpg";
 import { ImageComponent } from "../../../../components/Image";
 import "./styles/BakeryFilterItem.scss";
+import { imgBaseUrl } from "../../../../../core/services/baseUrl";
 
 const BakeryFilterItem = ({
   itemId,
@@ -27,7 +28,7 @@ const BakeryFilterItem = ({
         } d-flex flex-column justify-content-center align-items-center  item h-100 p-1`}>
           <ImageComponent
             id={itemId}
-            src={itemImg}
+            src={imgBaseUrl +  itemImg}
             style={{ maxHeight: "80px", maxWidth: "100%" }}
             imageDefaultClassName="rounded-1"
             placeHolderSx={{

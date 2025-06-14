@@ -4,6 +4,7 @@ import { KeyboardArrowUp } from "@mui/icons-material";
 import BakeryDrawerItem from "./components/BakeryDrawerItem";
 import "./styles/SelectedBakeryItemsListDrawer.scss";
 import { useNavigate } from "react-router";
+import { useShopBasketContext } from "../../../../../core/contexts/ShopBasket/shopBasket.ctx";
 
 const SelectedBakeryItemsListDrawer = ({
   selectedBakeryItemsList,
@@ -13,13 +14,19 @@ const SelectedBakeryItemsListDrawer = ({
 }) => {
   const navigate = useNavigate();
   const [isBakeryDrawerOpen, setIsBakeryDrawerOpen] = useState(false);
+  const { generalProducts_methods } = useShopBasketContext();
   const toggleBakeryDrawer = () => {
     setIsBakeryDrawerOpen((s) => !s);
   };
   const handleGoNext = () => {
-    navigate("/selected-bakery-items", {
-      state: { selectedBakeryItems: selectedBakeryItemsList },
+    const list = selectedBakeryItemsList.map((item) => {
+      return {
+        product: item?.id,
+        count: item?.count,
+      };
     });
+    generalProducts_methods.addListOfProducts(list);
+    navigate('/checkout-cart')
   };
 
   return (
@@ -27,7 +34,7 @@ const SelectedBakeryItemsListDrawer = ({
       {selectedBakeryItemsList?.length > 0 && (
         <div
           className={`d-flex flex-column w-100 bakery-drawer-container mx-auto`}
-          style={{zIndex: '100'}}
+          style={{ zIndex: "100" }}
         >
           <div
             onClick={toggleBakeryDrawer}
@@ -72,7 +79,7 @@ const SelectedBakeryItemsListDrawer = ({
                 isBakeryDrawerOpen == true ? "is-open" : "is-closed"
               }`}
             >
-              <span>ادامه خرید</span>
+              <span>افزودن به سبد خرید</span>
               <span className="ms-1">
                 ({selectedBakeryItemsList && selectedBakeryItemsList?.length}{" "}
                 محصول انتخاب شده)

@@ -1,22 +1,8 @@
-import {
-  CircularProgress,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteFilled from "@mui/icons-material/Favorite";
-import React, { useState, useEffect } from "react";
-import { useImperativeHandle } from "react";
-import { forwardRef } from "react";
+import React, { useState } from "react";
 import { formatNumber } from "../../../../core/utility/helperFunctions";
-import { apiCaller } from "../../../../core/custom-hooks/useApi";
-import { favorite_apiCalls } from "../../../../core/services/agent";
 import { useAuthContext } from "../../../../core/contexts/AuthContext/AuthContext";
-import { toast } from "react-toastify";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
+import { imgBaseUrl } from "../../../../core/services/baseUrl";
 ////
 const RefrigeratorCakeCarouseltem = ({
   cake,
@@ -39,11 +25,7 @@ const RefrigeratorCakeCarouseltem = ({
     materials,
     tags,
     sendFree,
-    payPrice,
     price,
-    pricePerKG,
-    anticipatedWeight,
-    exactWeight,
     canWriteOnCake,
     textLength,
   } = cake;
@@ -55,7 +37,7 @@ const RefrigeratorCakeCarouseltem = ({
   };
   //////////////////
   const [imageNotLoaded, setImageNotLoaded] = useState(false);
-  const onImageNotLoaded = (e) => {
+  const onImageNotLoaded = () => {
     setImageNotLoaded(true);
   };
   //////////////////
@@ -73,7 +55,7 @@ const RefrigeratorCakeCarouseltem = ({
             alt="NO_PIC"
             className={(imageNotLoaded ? "d-none" : "") + " rounded "}
             onError={onImageNotLoaded}
-            src={image}
+            src={imgBaseUrl +  image}
             style={{
               maxWidth: "100%",
               height: "auto",
@@ -126,13 +108,7 @@ const RefrigeratorCakeCarouseltem = ({
             <CakeItemBadge text="ارسال رایگان" badgeColor="greenChocolate" />
           </div>
         )}
-        {/* ********** وزن تقریبی ********** */}
-        <div className=" my-3 d-flex align-items-center deta gap-2 p-2 rounded" style={{ backgroundColor: '#F5F5F5'}}>
-          <span className="fs-7 caro-color" style={{ minWidth: "50px" }}> وزن : </span>
-          <div className=" p-1 w-100 text-center rounded-1 caro-color" style={{ backgroundColor: '#EAEAEA'}}>
-            {`${formatNumber(exactWeight)} گرم`}
-          </div>
-        </div>
+
         {/* ********** مواد تشکبل دهنده ********** */}
         {/* ********** هزینه بیعانه  ********** */}
         <div className=" my-3 d-flex align-items-center gap-2 p-2 rounded"  style={{ backgroundColor: '#F5F5F5'}}>

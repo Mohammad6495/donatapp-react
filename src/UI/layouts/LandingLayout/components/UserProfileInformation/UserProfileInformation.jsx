@@ -47,7 +47,7 @@ const UserProfileInformation = ({
     apiCaller({
       api: account_apiCalls.apiCall_getbalance,
       onSuccess(resp) {
-        if (resp?.status == 200 && resp?.data?.status == 1) {
+        if (resp?.status == 200 && resp?.data?.statusCode == 200) {
           setBalanceValue(resp?.data?.data)
         }
       }
@@ -60,7 +60,7 @@ const UserProfileInformation = ({
 
   return (
     <div
-      className={`d-flex justify-content-between align-items-center user-data-holder ${holderClass}`}
+      className={`d-flex justify-content-between align-items-center user-data-holder w-100 ${holderClass}`}
     >
       {/* user pic holder */}
       {userToken && userToken && (
@@ -77,7 +77,7 @@ const UserProfileInformation = ({
       )}
       {/* user's name holder */}
       <div className="d-flex flex-column gap-2 justify-content-center align-items-center user-name-holder">
-        {userData && userProfileIsComplete === true && (
+        {userData && (
           <>
             <span>
               {userData?.firstName} {userData?.lastName}
@@ -87,9 +87,6 @@ const UserProfileInformation = ({
           </>
         )}
 
-        {userData && userProfileIsComplete === false && (
-          <span className="fs-8 ms-1">لطفا پروفایل خود را تکمیل نمایید</span>
-        )}
 
         {!userData && <span>لطفا ابتدا ثبت نام نمایید</span>}
       </div>

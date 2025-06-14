@@ -1,27 +1,31 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import KeyboardBackspace from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate, useLocation } from "react-router";
 import "./styles/BaseLayout.scss";
-import { Close } from "@mui/icons-material";
-import { Dialog } from "@mui/material";
 import { useShopBasketContext } from "../../../core/contexts/ShopBasket/shopBasket.ctx";
 
 const BaseLayout = ({ children }) => {
   ///constex
-  const { setPaymentWay, paymentWay } = useShopBasketContext();
+  const {  paymentWay } = useShopBasketContext();
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleBackNavigatePage = () => {
-
+    if (location?.pathname === "/refrigerator-cake") {
+      navigate("/");
+    } else if (location?.pathname === "/cookie") {
+      navigate("/");
+    } else if (location?.pathname === "/general-order-details/") {
+      navigate("/general-order-tracking");
+    } else {
       navigate(-1);
+    }
   };
 
   /////////////
   return (
     <>
       <section
-        // style={{ minHeight: "100vh", height: "auto" }}
         className="d-flex flex-column justify-content-start align-items-center base-section-holder p-0 m-0 w-100 px-3"
       >
         <div
@@ -46,9 +50,7 @@ const BaseLayout = ({ children }) => {
           }}
           className="d-flex flex-column flex-row justify-content-between align-items-center"
         >
-          {/* {location.pathname.includes("norouzi") && (
-          )} */}
-      
+  
 
           <div
             className="d-flex flex-row justify-content-between align-items-center w-100"
@@ -56,7 +58,11 @@ const BaseLayout = ({ children }) => {
           >
             <span
               className="d-flex flex-row justify-content-start align-items-baseline"
-              style={{ color: "##C36428", fontSize: "17px", fontWeight: "bold" }}
+              style={{
+                color: "##C36428",
+                fontSize: "17px",
+                fontWeight: "bold",
+              }}
             >
               {location?.pathname === "/profile" ? "پروفایل" : ""}
               {location?.pathname === "/selected-norouzi-items"
@@ -65,13 +71,18 @@ const BaseLayout = ({ children }) => {
               {location?.pathname === "/edit-profile" ? "تکمیل پروفایل" : ""}
               {location?.pathname === "/calc-price" ? "محاسبه مسیر" : ""}
               {location?.pathname === "/add-address" ? "اضافه کردن آدرس" : ""}
-              {location?.pathname === "/tomorrow-cake-orders" ? "لیست سفارشات کیک فردایی و پسفردایی" : ""}
+              {location?.pathname === "/tomorrow-cake-orders"
+                ? "لیست سفارشات کیک فردایی و پسفردایی"
+                : ""}
               {location?.pathname === "/checkout-cart"
                 ? !paymentWay
                   ? "نحوه پرداخت"
                   : "سبد خرید"
                 : ""}
-              {location?.pathname === "/orders" ? "سفارشات" : ""}
+
+              {location?.pathname === "/general-order-tracking"
+                ? "سفارشات"
+                : ""}
               {location?.pathname === "/order-tracking" ? "پیگیری سفارش" : ""}
               {location?.pathname === "/cake-order" ? "سفارش کیک" : ""}
               {location?.pathname === "/norouzi" ? "محصولات ویژه نوروز" : ""}
@@ -103,7 +114,6 @@ const BaseLayout = ({ children }) => {
               {location?.pathname.includes("track-tomorrow-cake-order")
                 ? "جزییات سفارش"
                 : ""}
-
 
               {location?.pathname.includes("/redirect-cake-detail")
                 ? "جزئیات کیک"
@@ -145,16 +155,9 @@ const BaseLayout = ({ children }) => {
               {location?.pathname.includes("/choosing-box")
                 ? "انتخاب جعبه"
                 : ""}
-              {/* {location?.pathname.includes("/order-details-check-verify-number") ? "انتخاب جعبه" : ""} */}
-
-              {/* {location?.pathname.includes("/creamy-cookie-detail")
-            ? "شیرینی تر"
-            : ""} */}
+     
               {location?.pathname.includes("/cookie") ? "شیرینی خشک" : ""}
-              {/* {location?.pathname.includes("/cookie-detail") ? "شیرینی خشک" : ""} */}
               {location?.pathname === "/bakery" ? "بیکری" : ""}
-              {/* {location?.pathname.includes("tomorrow-cake/?type=1") ? "فردایی" : ""}
-              {location?.pathname == "tomorrow-cake/?type=2" ? "پس فردایی" : ""} */}
 
               {location?.pathname === "/dessert" ? "دسر" : ""}
               {location?.pathname === "/refferer-code" ? "دعوت از دوستان" : ""}
@@ -167,7 +170,9 @@ const BaseLayout = ({ children }) => {
               {location?.pathname === "/cake-order-list" ? "سفارشات کیک" : ""}
               {location?.pathname === "/select-final-cake" ? "سفارشات کیک" : ""}
               {location?.pathname === "/category-cake-type" ? "کیک ها" : ""}
-              {location?.pathname.includes("/extra-products") ? "لوازم تولد" : ""}
+              {location?.pathname.includes("/extra-products")
+                ? "لوازم تولد"
+                : ""}
               {location?.pathname === "/image-editor-code"
                 ? "ویرایش عکس محصول"
                 : ""}

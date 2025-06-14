@@ -37,7 +37,7 @@ const MyWallet = () => {
         apiCaller({
             api: account_apiCalls.apiCall_getbalance,
             onSuccess(resp) {
-                if (resp?.status == 200 && resp?.data?.status == 1) {
+                if (resp?.status == 200 && resp?.data?.statusCode == 200) {
                     setBalanceValue(resp?.data?.data)
                 }
             }
@@ -55,7 +55,7 @@ const MyWallet = () => {
                 ??
                 Number(String(priceValueInput).replace(/,/g, '')),
             onSuccess: (resp) => {
-                if (resp?.status == 200 && resp?.data?.status == 1) {
+                if (resp?.status == 200 && resp?.data?.statusCode == 200) {
                     navigate(
                         `/gateway-redirect?url=${resp.data?.data.gatewayTransporter.descriptor.url}`
                     );

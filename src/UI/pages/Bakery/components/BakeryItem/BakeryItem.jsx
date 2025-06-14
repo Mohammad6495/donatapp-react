@@ -45,7 +45,7 @@ const Item = ({
         minHeight: "100px",
         //  boxShadow: "0 5px 10px 5px #ebebeb"
       }}
-      onClick={() => addItemHandler(id)}
+      onClick={addItemHandler}
       className="col-6  d-flex justify-content-center align-items-stretch p-2 cursor-pointer"
     >
       <div
@@ -53,33 +53,12 @@ const Item = ({
         className="d-flex flex-column justify-content-start align-items-stretch item-holder w-100 "
       >
         <div className="d-flex justify-content-center align-items-center bakery-item-img-holder position-relative">
-          {
-            discountPercentage !=0 &&
-            <div
-            className="fs-6"
-              style={{
-                position: "absolute",
-                top: "33px",
-                left: "-5px",
-                background: "#CB7640",
-                color: "white",
-                fontWeight: "bold",
-                padding: "5px 15px",
-                fontSize: "12px",
-                transform: "rotate(-45deg)",
-                transformOrigin: "left top",
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                zIndex: 10,
-              }}
-            >
-              ٪{discountPercentage}
-            </div>
-          }
+ 
 
 
           <ImageComponent
             id={id}
-            src={image}
+            src={imgBaseUrl +  image}
             style={{ borderRadius: "12px", border: "1px solid transparent" }}
             imageDefaultClassName="w-100 h-100"
             placeHolderSx={{
@@ -119,9 +98,7 @@ const Item = ({
           </span>
           <div className="d-flex justify-content-between align-items-center w-100">
             <div className="d-flex flex-column mt-1">
-              {discountPercentage != 0 && (
-                <del className="text-muted" style={{fontSize: '16px'}}>{formatNumber(oldPrice)} تومان</del>
-              )}
+            
               <span className="text-caro-primary fs-6">{formatNumber(price)} تومان</span>
             </div>
             <button className="add-item-creamy">
@@ -147,7 +124,7 @@ const BakeryItem = ({ bakeryData, selectBakeryHandler }) => {
         {/* start item */}
         {bakeryData &&
           bakeryData?.map((it) => (
-            <Item {...it} key={it?.id} addItemHandler={selectBakeryHandler} />
+            <Item {...it} key={it?.id} addItemHandler={() => selectBakeryHandler(it)} />
           ))}
         {/* end item */}
         {bakeryData?.length <= 0 && (

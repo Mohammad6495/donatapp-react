@@ -4,16 +4,16 @@ import { API_URLs } from "../../CONSTANTS";
 const refrigeratorCake_apis = API_URLs.refrigeratorCake;
 
 // ----- Get Refrigerator Cake List Api -----
-export const apiCall_getAllRefrigeratorCake = async (sizeId) => {
+export const apiCall_getAllRefrigeratorCake = async (productType) => {
   return http.get(
-    refrigeratorCake_apis.getRefrigeratorCakeList + `?sizeId=${sizeId || ''}`
+    refrigeratorCake_apis.getRefrigeratorCakeList + `?productType=${productType}`
   );
 };
 
 // ----- Get Refrigerator Cake Detail Api -----
 export const apiCall_getRefrigeratorCakeDetail = async ({ cakeId }) => {
   return http.get(
-    refrigeratorCake_apis.getRefrigeratorCakeDetail + "?cakeId=" + cakeId
+    refrigeratorCake_apis.getRefrigeratorCakeDetail + "?id=" + cakeId
   );
 };
 

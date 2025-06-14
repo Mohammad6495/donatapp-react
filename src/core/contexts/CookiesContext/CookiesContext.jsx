@@ -75,18 +75,18 @@ const CookiesContextProvider = ({ children }) => {
 
   // Get All Cookies
   const getAllCookies = () => {
-    apiCaller({
-      api: cookie_apiCalls.apiCall_getAllCookies,
-      apiArguments: 0,
-      onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data.statusCode === 200) {
-          setAllCookies(resp?.data?.data);
-        }
-      },
-      onError: (err) => {},
-      onStart: handleOpen,
-      onEnd: handleClose,
-    });
+    // apiCaller({
+    //   api: cookie_apiCalls.apiCall_getAllCookies,
+    //   apiArguments: 0,
+    //   onSuccess: (resp) => {
+    //     if (resp.status === 200 && resp.data.statusCode === 200) {
+    //       setAllCookies(resp?.data?.data);
+    //     }
+    //   },
+    //   onError: (err) => {},
+    //   onStart: handleOpen,
+    //   onEnd: handleClose,
+    // });
   };
 
   useEffect(() => {

@@ -38,7 +38,7 @@ const ImageEditLogin = () => {
         onStart: handleOpen,
         onEnd: handleClose,
         onSuccess: (resp) => {
-          if (resp?.status == 200 && resp?.data?.status == 1) {
+          if (resp?.status == 200 && resp?.data?.statusCode == 200) {
             if (resp?.data?.data?.id) {
               setBranch(resp?.data?.data?.id);
               set_branchToken("1");

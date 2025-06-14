@@ -88,7 +88,7 @@ const DialogInsertNewDate = ({ open, handleClose, getAllBirthDay }) => {
               day: Number(MyDay),
             },
             onSuccess: (resp) => {
-              if (resp.status == 200 && resp.data.status == 1) {
+              if (resp.status == 200 && resp.data.statusCode == 200) {
                 setSelectedDateValue(undefined);
                 setTitle("");
                 setSelectedDateEvents(undefined);

@@ -31,41 +31,10 @@ const ExtraProductSection = () => {
   const location = useLocation();
   /////////////////
   const [extraProducts, setExtraProducts] = useState();
-  const getExtraProducts = () => {
-    apiCaller({
-      api: products_apiCalls.apiCall_getAllExtras,
-      apiArguments: {
-        CategoryId: undefined
-      },
-      onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data?.status == 1) {
-          setExtraProducts(resp.data.data);
-        }
-      },
-    });
-  };
-  useEffect(() => {
-    getExtraProducts();
-  }, []);
-  const addExtraProductToBasket = (id) => {
-    birthDayUtils_methods.createAndAddItem(id, 1);
-  };
-  const deleteExtraProductFromBasket = (item) => {
-    birthDayUtils_methods.deleteItem(item.id);
-  };
-  const incrementExtraProductItemCount = (item) => {
-    birthDayUtils_methods.increment(item.id);
-  };
-  const decrementExtraProductItemCount = (item) => {
-    birthDayUtils_methods.decrement(item.id);
-  };
-  useEffect(() => {
-    if (refrigeratorProducts_methods.getAll().length == 0) {
-      if (birthDayUtils_methods.getAll()?.length > 0) {
-        birthDayUtils_methods.deleteAll();
-      }
-    }
-  }, []);
+
+
+
+
   const handleNavigateToExtraProducts = () => {
     navigate(`/extra-products/3?returnUrl=/checkout-cart`)
   }

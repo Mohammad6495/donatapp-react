@@ -2,7 +2,7 @@ import { baseUrl } from "./baseUrl";
 
 export const API_URLs = {
   home: {
-    getAllCakeSize: baseUrl + "/cakesizes/list",
+    getAllCakeSize: baseUrl + "/app/categories/getall",
     getBranchProductsAvailability: baseUrl + "/branch/branchavailability",
   },
   saleTime: {
@@ -35,12 +35,12 @@ export const API_URLs = {
     getcreamycookieprice: baseUrl + "/branch/getcreamycookieprice",
   },
   customerAddress: {
-    getCustomerAddressList: baseUrl + "/app/customeraddress/list",
-    createCustomerAddress: baseUrl + "/app/app/customeraddress/create",
+    getCustomerAddressList: baseUrl + "/app/customeraddress/getall",
+    createCustomerAddress: baseUrl + "/app/customeraddress/create",
     getCustomerAddressDetail: baseUrl + "/app/customeraddress/detail",
     editCustomerAddress: baseUrl + "/app/customeraddress/edit",
     deleteCustomerAddress: baseUrl + "/app/customeraddress/delete",
-    setDefaultAddress: baseUrl + "/app/customeraddress/setaddressasdefault",
+    setDefaultAddress: baseUrl + "/app/customeraddress/changestatusdefaultaddress",
     getAddressName: baseUrl + "/app/customeraddress/getaddressname",
   },
   extraCategory: {
@@ -68,11 +68,11 @@ export const API_URLs = {
   },
   refrigeratorCake: {
     // getRefrigeratorCakeList: baseUrl + "/refrigeratorcake/list",
-    getRefrigeratorCakeList: baseUrl + "/cake/refrigeratorcakes2",
+    getRefrigeratorCakeList: baseUrl + "/app/products/getall",
     directrefrigeratorcakedetail:
       baseUrl + "/cake/directrefrigeratorcakedetail",
     // getRefrigeratorCakeDetail: baseUrl + "/refrigeratorcake/detail",
-    getRefrigeratorCakeDetail: baseUrl + "/cake/refrigeratorcakedetail",
+    getRefrigeratorCakeDetail: baseUrl + "/app/products/detail",
     unreserveCake: baseUrl + "/cake/unreserve",
     reserveCake: baseUrl + "/cake/reserve",
     currentDate: baseUrl + "/cake/currentdate",
@@ -86,8 +86,8 @@ export const API_URLs = {
     getCategoriesList: baseUrl + "/cookie/categories",
   },
   payment: {
-    getFactor: baseUrl + "/cart/getfactor",
-    submitFactor: baseUrl + "/cart/submit",
+    getFactor: baseUrl + "/app/cart/getfactor",
+    submitFactor: baseUrl + "/app/cart/submitfactor",
   },
   bakery: {
     getBakeryItemsList: baseUrl + "/bakerycategory/list",
@@ -100,9 +100,9 @@ export const API_URLs = {
     getDessertItemsList: baseUrl + "/dessertcategory/list",
   },
   cart: {
-    getAllUserOrdersList: baseUrl + "/cart/list",
-    getOrderDetail: baseUrl + "/cart/detail",
-    payFinalPrice: baseUrl + "/cart/payfinalprice",
+    getAllUserOrdersList: baseUrl + "/app/cart/generalorderbyuser",
+    getOrderDetail: baseUrl + "/app/cart/generalorderdetail",
+    payFinalPrice: baseUrl + "/app/cart/payagainorder",
     payIncompleteOrder: baseUrl + "/cart/pay",
     activelist: baseUrl + "/cart/activelist",
   },

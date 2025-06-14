@@ -23,7 +23,7 @@ const VerifyLogin = () => {
         onStart: handleOpen,
         onEnd: handleClose,
         onSuccess: (resp) => {
-          if (resp.status === 200 && resp.data.status == 1) {
+          if (resp.status === 200 && resp.data.statusCode == 200) {
             set_userToken(resp.data.data);
             http.setToken(http.tokenKey, resp.data.data);
             navigate(`/`);

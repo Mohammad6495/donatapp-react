@@ -96,7 +96,7 @@ const MoreAddress = () => {
         // onErrorMessage: "عملیات با خطا مواجه شد .",
         onSuccessMessage: "آدرس پیشفرض با موفقیت ثبت شد .",
         onSuccess: (resp) => {
-          if (resp.status === 200 && resp?.data?.status == 1) {
+          if (resp.status === 200 && resp?.data?.statusCode == 200) {
             // const clonedList = JSON.parse(JSON.stringify(customerAddressList));
             // const index = clonedList.findIndex((it) => it.id == id);
             // if (index >= 0) {

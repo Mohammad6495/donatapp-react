@@ -80,7 +80,7 @@ const EditProfile = () => {
             firstName: values?.name,
             lastName: values?.family,
             email: values?.email,
-            phoneNumber: values?.mobile,
+            phoneNumber: userData?.userName,
             nationalCode: values?.nationalCode
           });
           checkProfileStatus({
@@ -127,7 +127,7 @@ const EditProfile = () => {
             family: userData?.lastName || "",
             mobile: userData?.userName || "",
             email: userData?.email || "",
-            nationalCode: userData?.nationalCode || 'ّ'
+            nationalCode: userData?.nationalCode || ''
           }}
           validationSchema={formSchema}
           onSubmit={handleEditProfileSubmit}

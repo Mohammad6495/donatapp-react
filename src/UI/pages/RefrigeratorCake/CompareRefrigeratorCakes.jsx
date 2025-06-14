@@ -30,7 +30,7 @@ const RefrigeratorCake = () => {
       api: refrigeratorCake_apiCalls.apiCall_getAllRefrigeratorCake,
       apiArguments: "",
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data.status == 1) {
+        if (resp.status === 200 && resp.data.statusCode == 200) {
           const data = [...resp?.data?.data];
           setAllRefrigeratorCake(data);
         }

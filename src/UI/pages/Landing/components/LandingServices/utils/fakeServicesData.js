@@ -66,7 +66,7 @@ export const newfakeDataServiceColomnOne = [
     id: 2,
     className: '',
     image: birthdaysuppliesImg,
-    path: "/extra-products/3",
+    path: "/extra-products",
     cakeAlias: "",
 
   },
@@ -92,7 +92,7 @@ export const newfakeDataServiceColomnTwo = [
     id: 4,
     className: '',
     image: newCookieCreamyimg,
-    path: "/creamy-cookie",
+    path: "/cookie",
     cakeAlias: "creamy",
 
   },

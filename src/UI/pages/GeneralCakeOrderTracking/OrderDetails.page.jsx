@@ -91,7 +91,7 @@ const OrderDetails = () => {
     apiCaller({
       api: branches_apiCalls.apiCall_get,
       onSuccess: (resp) => {
-        if (resp?.status == 200 && resp?.data?.status == 1) {
+        if (resp?.status == 200 && resp?.data?.statusCode == 200) {
           setFreeSendingOnlinePayment(
             resp?.data?.data?.freeSendingForOnlinePayment
           );
@@ -159,7 +159,7 @@ const OrderDetails = () => {
         <span className="text-caro-primary fw-bold">وضعیت سفارش : </span>
         <span className="ms-1">
           {orderDetail?.status == 0 ? "ثبت اولیه" : ""}
-          {orderDetail?.status == 1 || orderDetail?.status == 2
+          {orderDetail?.statusCode == 200 || orderDetail?.status == 2
             ? 'در حال آماده سازی'
             : ""}
           {orderDetail?.status == 3 ? "آماده تحویل" : ""}

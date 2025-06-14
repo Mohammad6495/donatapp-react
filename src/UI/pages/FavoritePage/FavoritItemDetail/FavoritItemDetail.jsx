@@ -35,7 +35,7 @@ const FavoritItemDetail = () => {
       api: refrigeratorCake_apiCalls.apiCall_getRefrigeratorCakeDetail,
       apiArguments: { cakeId: id },
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data.status == 1) {
+        if (resp.status === 200 && resp.data.statusCode == 200) {
           setCakeDetails(resp?.data?.data);
         }
       },
@@ -49,7 +49,7 @@ const FavoritItemDetail = () => {
       api: tomorrowCake_apiCalls.apiCall_getTomorrowCakeDetail,
       apiArguments: { cakeId: id },
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data.status == 1) {
+        if (resp.status === 200 && resp.data.statusCode == 200) {
           setCakeDetails(resp?.data?.data);
         }
       },

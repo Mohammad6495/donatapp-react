@@ -1,285 +1,212 @@
 import React, { useEffect, useState } from "react";
-import { Pagination, Autoplay, Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "./styles/styles.scss";
-
+import BakeryItems from "../Bakery/components/BakeryItem/BakeryItem";
+import { useLoadingContext } from "../../../core/contexts/LoadingContext/LoadingContext";
 import { apiCaller } from "../../../core/custom-hooks/useApi";
 import {
-  extraCategory_apiCaller,
-  products_apiCalls,
-  visit_apiCaller,
+  home_apiCalls,
+  refrigeratorCake_apiCalls,
 } from "../../../core/services/agent";
-import { useLoadingContext } from "../../../core/contexts/LoadingContext/LoadingContext";
-import ExtraProductsCategory from "./ExtraProductsCategory/ExtraProductsCategory";
-import { Alert } from "@mui/material";
-import ProductExtraItem from "./ProductExtraItem/ProductExtraItem";
-import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
-import SelectedDessertItemsListDrawer from "./SelectedDessertItemsListDrawer/SelectedDessertItemsListDrawer";
-import { useLocation, useParams } from "react-router";
+import { Button } from "@mui/material";
+import { Close } from "@mui/icons-material";
+import BakeryFilterItem from "../Bakery/components/BakeryFilterItem/BakeryFilterItem";
+import SelectedBakeryItemsListDrawer from "../Bakery/components/SelectedBakeryItemsListDrawer/SelectedBakeryItemsListDrawer";
+import { useShopBasketContext } from "../../../core/contexts/ShopBasket/shopBasket.ctx";
+import { useNavigate } from "react-router";
 
 const ExtraProduct = () => {
-  const location = useLocation();
+  const navigate = useNavigate();
+  const { bakeryProducts_methods } = useShopBasketContext();
+  const { handleClose, handleOpen } = useLoadingContext();
 
-  const [categoryList, setCategoryList] = useState([]);
+  const [bakerySelectedItems, setBakerySelectedItems] = useState([]);
+  const [allBakery, setAllBakery] = useState([]);
+  const [filteredBakery, setFilteredBakery] = useState([]);
+  const [bakeryFilterItems, setBakeryFilterItems] = useState([]);
+  const [removeFilerState, setRemoveFilerState] = useState(false);
 
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectProductWithCategory, setSelectedProductWithCategory] = useState(
-    []
-  );
-
-  const { handleOpen, handleClose } = useLoadingContext();
-
-  const getAllExtraCategory = async () => {
+  // --- Get Filter Categories ---
+  const getAllBakerySizeData = () => {
     apiCaller({
-      api: extraCategory_apiCaller.apiCall_getAllExtraCategory,
-      apiArguments: {
-        CategoryId: selectedCategory,
-      },
-      onSuccess: (res) => {
-        if (res?.status == 200 && res?.data?.status == 1) {
-          setCategoryList(res.data?.data);
+      api: home_apiCalls.apiCall_getAllCakeSize,
+      apiArguments: 4,
+      onSuccess: (resp) => {
+        if (resp?.status === 200 && resp?.data.statusCode == 200) {
+          const newList = resp?.data?.data.map((item) => ({
+            ...item,
+            isFilterActive: false,
+          }));
+          setBakeryFilterItems(newList);
         }
       },
+      onError: () => {},
       onStart: handleOpen,
       onEnd: handleClose,
     });
   };
 
-  const [extraProducts, setExtraProducts] = useState([]);
-  const getExtraProducts = async (id) => {
-    const resp = await apiCaller({
-      api: products_apiCalls.apiCall_getAllExtras,
-      apiArguments: {
-        CategoryId: id,
-      },
-    });
-    if (resp.status === 200 && resp.data?.status == 1) {
-      return resp.data.data;
-    }
-    return [];
-  };
-
   useEffect(() => {
-    getAllExtraCategory();
+    getAllBakerySizeData();
   }, []);
 
+  // --- Get All Products ---
   useEffect(() => {
-    if (categoryList?.length > 0) {
-      setSelectedCategory(categoryList[0]?.id);
-    }
-  }, [categoryList]);
-
-  const handleFiltering = (id) => {
-    setSelectedCategory(id);
-  };
-
-  useEffect(() => {
-    if (selectedCategory) {
-      const allChildrens = categoryList.find(
-        (item) => item.id == selectedCategory
-      )?.children;
-      if (allChildrens?.length > 0) {
-        const fetchAllData = async () => {
-          const allData = await Promise.all(
-            allChildrens.map(async (item) => {
-              const allChildrensOfChildrens = await getExtraProducts(item?.id);
-              const newChildrenCategortMitProduct = {
-                ...item,
-                products: allChildrensOfChildrens,
-              };
-              return newChildrenCategortMitProduct;
-            })
-          );
-          setExtraProducts(allData);
-        };
-        fetchAllData();
-      } else {
-        setExtraProducts([]);
-      }
-    }
-  }, [selectedCategory]);
-
-  const hndleSetSelectProductWithCategory = (product) => {
-    setSelectedProductWithCategory((prev) => {
-      const existingProduct = prev.find((item) => item.id == product?.id);
-      if (existingProduct) {
-        return prev.map((item) =>
-          item.id == product?.id ? { ...item, count: item.count + 1 } : item
-        );
-      } else {
-        return [...prev, { ...product, count: 1 }];
-      }
+    apiCaller({
+      api: refrigeratorCake_apiCalls.apiCall_getAllRefrigeratorCake,
+      apiArguments: 4,
+      onSuccess: (resp) => {
+        if (resp.status === 200 && resp.data.statusCode == 200) {
+          const data = resp?.data?.data || [];
+          setAllBakery(data);
+          setFilteredBakery(data); // پیش‌فرض: همه محصولات نمایش داده شوند
+        }
+      },
+      onStart: handleOpen,
+      onEnd: handleClose,
     });
+  }, []);
+
+  // --- Handle Filter Click ---
+  const handleFiltering = (cakeTypeId) => {
+    const updatedFilters = bakeryFilterItems.map((item) => ({
+      ...item,
+      isFilterActive: item.id === cakeTypeId ? !item.isFilterActive : false,
+    }));
+    setBakeryFilterItems(updatedFilters);
+
+    const selectedFilter = updatedFilters.find((f) => f.isFilterActive);
+    if (selectedFilter) {
+      const filtered = allBakery.filter(
+        (product) => product.category === selectedFilter.id
+      );
+      setFilteredBakery(filtered);
+    } else {
+      setFilteredBakery(allBakery);
+    }
   };
 
-  const handleDeleteDessert = (id) => {
-    setSelectedProductWithCategory((prev) =>
-      prev.filter((item) => item.id !== id)
+  // --- Remove All Filters ---
+  const handleRemoveAllFilter = () => {
+    const resetFilters = bakeryFilterItems.map((item) => ({
+      ...item,
+      isFilterActive: false,
+    }));
+    setBakeryFilterItems(resetFilters);
+    setFilteredBakery(allBakery);
+  };
+
+  useEffect(() => {
+    const hasActiveFilter = bakeryFilterItems.some(
+      (item) => item.isFilterActive
+    );
+    setRemoveFilerState(hasActiveFilter);
+  }, [bakeryFilterItems]);
+
+  // --- Item Selection ---
+  const handleDeleteBakeryItem = (itemId) => {
+    setBakerySelectedItems((prev) =>
+      prev.filter((item) => item.id !== itemId)
     );
   };
 
-  const handleDessertMinus = (id) => {
-    setSelectedProductWithCategory((prev) =>
-      prev
-        .map((item) => {
-          if (item.id === id) {
-            const newCount = item.count - 1;
-            return newCount <= 0 ? null : { ...item, count: newCount };
-          }
-          return item;
-        })
-        .filter(Boolean)
-    );
-  };
-
-  const handleDessertPlus = (id) => {
-    setSelectedProductWithCategory((prev) =>
+  const handleBakeryMinusButton = (itemId) => {
+    setBakerySelectedItems((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, count: item.count + 1 } : item
+        item.id === itemId && item.count > 1
+          ? { ...item, count: item.count - 1 }
+          : item
       )
     );
   };
 
-  const sendVisitToApi = () => {
-    const ipurl = window.location.host + location.pathname;
-    fetch("https://api.ipify.org?format=json")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        apiCaller({
-          api: visit_apiCaller.apiCall_createdVisit,
-          apiArguments: {
-            webPage: 6,
-            ip: data.ip,
-            domain: ipurl,
-          },
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching IP:", error);
-      });
+  const handleBakeryPlusButton = (itemId) => {
+    setBakerySelectedItems((prev) =>
+      prev.map((item) =>
+        item.id === itemId ? { ...item, count: item.count + 1 } : item
+      )
+    );
   };
 
-  useEffect(() => {
-    sendVisitToApi();
-  }, [location.pathname]);
+  const handleBakeryItemClicked = (product) => {
+    setBakerySelectedItems((prevItems) => {
+      const existingItem = prevItems.find((item) => item.id === product.id);
+      if (existingItem) {
+        return prevItems.map((item) =>
+          item.id === product.id
+            ? { ...item, count: item.count + 1 }
+            : item
+        );
+      } else {
+        return [...prevItems, { ...product, count: 1 }];
+      }
+    });
+  };
 
   return (
-    <div className="d-flex flex-column extra-product-content- w-100 py-1">
-      {categoryList?.length > 0 && (
-        <div
-          style={{
-            position: "fixed",
-            zIndex: 10000,
-            backgroundColor: "#FFFFFF",
-            top: "90px",
-            margin: "0 auto",
-            width: "100%",
-            maxWidth: "576px",
-            right: "0",
-            left: "0",
-          }}
-          className="overflow-hidden py-2 px-2 w-100 d-flex justify-content-between align-items-stretch "
-        >
-          <div className="category-extra-product-content d-flex justify-content-between align-items-stretch p-2">
-            {categoryList?.map((item) => (
-              <ExtraProductsCategory
-                selectedCategory={selectedCategory}
-                key={item?.id}
-                itemId={item?.id}
-                itemText={item?.title}
-                itemImg={item?.image}
-                isActive={categoryList.some(
-                  (it) => item?.isFilterActive == true
-                )}
-                filterHandler={handleFiltering}
-                filtersCount={categoryList.length}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+    <section className="m-0 p-0 flex-grow-1 d-flex flex-column justify-content-start align-items-center w-100 hidden-scrollbar position-relative">
+      {/* Filters */}
+      <div
+        style={{
+          position: "fixed",
+          zIndex: 10000,
+          backgroundColor: "#FFFFFF",
+          top: "80px",
+          margin: "0 auto",
+          width: "100%",
+          maxWidth: "576px",
+        }}
+        className="overflow-hidden py-2 px-3 w-100 d-flex"
+      >
+        {bakeryFilterItems.map((item) => (
+          <BakeryFilterItem
+            key={item.id}
+            itemId={item.id}
+            itemText={item.title}
+            isNotClass={true}
+            itemImg={item.image}
+            isActive={item.isFilterActive}
+            filterHandler={handleFiltering}
+            filtersCount={bakeryFilterItems.length}
+          />
+        ))}
+      </div>
 
-      <div className="d-flex flex-column extra-product-content w-100 py-1 ">
-        {extraProducts.length !== 0 ? (
-          extraProducts.map((item) =>
-            item?.products?.length !== 0 ? (
-              <div className="d-flex flex-column my-3" key={item?.id}>
-                <h6 className="fw-bold">{item?.title}</h6>
-                {item?.products?.length > 0 ? (
-                  <div className="swiper-container position-relative">
-                    <Swiper
-                      navigation={{
-                        nextEl: `#custom-next-${item?.id}`,
-                        prevEl: `#custom-prev-${item?.id}`,
-                      }}
-                      modules={[Navigation]}
-                      className="mySwiper"
-                    >
-                      {item?.products?.map((product, index) => (
-                        <SwiperSlide key={index}>
-                          <ProductExtraItem
-                            hndleSetSelectProductWithCategory={
-                              hndleSetSelectProductWithCategory
-                            }
-                            {...product}
-                          />
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
-                    <button
-                      className="custom-prev"
-                      id={`custom-next-${item?.id}`}
-                    >
-                      <FaCaretLeft />
-                    </button>
-                    <button
-                      className="custom-next"
-                      id={`custom-prev-${item?.id}`}
-                    >
-                      <FaCaretRight />
-                    </button>
-                  </div>
-                ) : (
-                  <Alert severity="warning">
-                    در دسته بندی {item?.title} محصولی یافت نشد
-                  </Alert>
-                )}
-              </div>
-            ) : (
-              <></>
-            )
-          )
-        ) : (
-          <>
-            <Alert severity="warning">
-              لوازم تولد در این دسته بندی یافت نشد!
-            </Alert>
-          </>
+      <div
+        style={{ marginTop: "130px" }}
+        className="d-flex justify-content-between align-items-center w-100 filter-button-holder"
+      >
+        {removeFilerState && (
+          <Button
+            style={{
+              backgroundColor: "#fae105",
+              color: "#080808",
+              borderRadius: "8px",
+              fontSize: "12px",
+            }}
+            className="px-3"
+            startIcon={<Close />}
+            onClick={handleRemoveAllFilter}
+          >
+            حذف فیلتر
+          </Button>
         )}
       </div>
 
-      <div className="d-flex flex-column select-product-white-cat">
-        {selectProductWithCategory?.length > 0 ? (
-          <div
-            className="w-100 m-0 p-0 position-relative"
-            style={{ height: "180px" }}
-          >
-            <SelectedDessertItemsListDrawer
-              selectedDessertItemsList={selectProductWithCategory}
-              deleteDessertHandler={handleDeleteDessert}
-              dessertMinusButtonHandler={handleDessertMinus}
-              dessertPlusButtonHandler={handleDessertPlus}
-            />
-          </div>
-        ) : null}
+      {/* محصولات */}
+      <BakeryItems
+        bakeryData={filteredBakery}
+        selectBakeryHandler={handleBakeryItemClicked}
+      />
+
+      {/* سبد خرید پایین صفحه */}
+      <div className="w-100 m-0 p-0" style={{ height: "180px" }}>
+        <SelectedBakeryItemsListDrawer
+          selectedBakeryItemsList={bakerySelectedItems}
+          deleteBakeryHandler={handleDeleteBakeryItem}
+          bakeryMinusButtonHandler={handleBakeryMinusButton}
+          bakeryPlusButtonHandler={handleBakeryPlusButton}
+        />
       </div>
-    </div>
+    </section>
   );
 };
 

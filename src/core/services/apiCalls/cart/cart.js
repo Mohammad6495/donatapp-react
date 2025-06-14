@@ -10,12 +10,12 @@ export const apiCall_getAllUserOrdersList = async () => {
 
 // ----- Get User Order Detail Api -----
 export const apiCall_getUserOrderDetail = async (id) => {
-  return http.get(cart_apis.getOrderDetail + `?id=${id}`);
+  return http.get(cart_apis.getOrderDetail + `?orderId=${id}`);
 };
 
 // ----- Pay Final Price Api -----
 export const apiCall_payFinalPrice = async (id) => {
-  return http.post(cart_apis.payFinalPrice + `?id=${id}`);
+  return http.post(cart_apis.payFinalPrice + `?orderId=${id}`);
 };
 
 // ----- Pay Final Price Api -----

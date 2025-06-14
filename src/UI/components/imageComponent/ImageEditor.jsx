@@ -103,7 +103,7 @@ export default function App() {
       api: picture_apiCaller.apiCall_getByCode,
       apiArguments: Number(code),
       onSuccess: (resp) => {
-        if (resp?.status == 200 && resp?.data?.status == 1) {
+        if (resp?.status == 200 && resp?.data?.statusCode == 200) {
           setProductValue(resp?.data?.data);
         }
       },
@@ -161,7 +161,7 @@ export default function App() {
           onEnd: handleClose,
           onErrorMessage: "عملیات با خطا مواجهه شد",
           onSuccess: (resp) => {
-            if (resp?.status == 200 && resp?.data?.status == 1) {
+            if (resp?.status == 200 && resp?.data?.statusCode == 200) {
               if (resp?.data?.data?.code) {
                 getProductById(resp?.data?.data?.code);
               } else {

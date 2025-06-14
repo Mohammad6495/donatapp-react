@@ -37,7 +37,6 @@ const AddressCard = ({
       style={{
         position: "relative",
       }}
-      onClick={() => handleNavigateToEditAddress(addressId)}
       className="d-flex justify-content-start align-items-stretch address-card-holder my-2 cursor-pointer"
     >
       <div className="d-flex justify-content-center align-items-center col-3">

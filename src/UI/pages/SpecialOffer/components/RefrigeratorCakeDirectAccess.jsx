@@ -31,7 +31,7 @@ const RefrigeratorCakeDetails = ({ id }) => {
       api: specialOffer_apiCalls.apiCall_getSpecialOffer,
       apiArguments: { cakeId: id },
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data.status == 1) {
+        if (resp.status === 200 && resp.data.statusCode == 200) {
           setCakeDetails(resp?.data?.data);
         }
       },

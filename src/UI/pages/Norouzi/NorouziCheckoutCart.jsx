@@ -111,7 +111,7 @@ const CheckoutCart = () => {
     apiCaller({
       api: branches_apiCalls.apiCall_get,
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp?.data?.status == 1) {
+        if (resp.status === 200 && resp?.data?.statusCode == 200) {
           setBranchData(resp?.data?.data);
           setIsInPersonPaymentActive(resp?.data?.data?.isInPersonPaymentActive);
           setBalanceCashBack(resp?.data?.data?.balanceCashBack);
@@ -142,7 +142,7 @@ const CheckoutCart = () => {
       api: customerAddress_apiCalls.apiCall_getAddressName,
       apiArguments: { lat: e[0], lng: e[1] },
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp?.data?.status == 1) {
+        if (resp.status === 200 && resp?.data?.statusCode == 200) {
           /*
             "formatted_address": null,
             "city": null,
@@ -228,7 +228,7 @@ const CheckoutCart = () => {
     apiCaller({
       api: branches_apiCalls.apiCall_get,
       onSuccess: (resp) => {
-        if (resp?.status == 200 && resp?.data?.status == 1) {
+        if (resp?.status == 200 && resp?.data?.statusCode == 200) {
           setFreeSendingOnlinePayment(
             resp?.data?.data?.freeSendingForOnlinePayment
           );
@@ -300,7 +300,7 @@ const CheckoutCart = () => {
       toastMessage: true,
       onErrorMessage: "دریافت فاکتور با خطا مواجه شد .",
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data.status == 1) {
+        if (resp.status === 200 && resp.data.statusCode == 200) {
           setFactor(resp.data?.data);
         } else {
           resetBasketNorouzi();
@@ -478,7 +478,7 @@ const CheckoutCart = () => {
     apiCaller({
       api: account_apiCalls.apiCall_getbalance,
       onSuccess(resp) {
-        if (resp?.status == 200 && resp?.data?.status == 1) {
+        if (resp?.status == 200 && resp?.data?.statusCode == 200) {
           setBalanceValue(resp?.data?.data);
         }
       },

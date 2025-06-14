@@ -26,7 +26,7 @@ const OrderDetailsCheckVerifyNumber = () => {
         navigate("/?pageId=0");
       },
       onSuccess: (resp) => {
-        if (resp.status === 200 && resp.data.status == 1) {
+        if (resp.status === 200 && resp.data.statusCode == 200) {
           if (userToken) {
             navigate(`/general-order-details/${id}`, {
               state: {number},
