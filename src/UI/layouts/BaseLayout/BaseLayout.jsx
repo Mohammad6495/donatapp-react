@@ -8,14 +8,14 @@ const BaseLayout = ({ children }) => {
   ///constex
   const {  paymentWay } = useShopBasketContext();
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation();  
 
   const handleBackNavigatePage = () => {
     if (location?.pathname === "/refrigerator-cake") {
       navigate("/");
     } else if (location?.pathname === "/cookie") {
       navigate("/");
-    } else if (location?.pathname === "/general-order-details/") {
+    } else if (location?.pathname.includes("/general-order-details/")) {
       navigate("/general-order-tracking");
     } else {
       navigate(-1);
