@@ -17,7 +17,7 @@ export const fakeDataNavigate = [
   {
     id: 4,
     href: "https://branch.caropastry.com/cookie/upsertbasic",
-    title: "شیرینی خشک",
+    title: "شیرینی ",
   },
   {
     id: 5,

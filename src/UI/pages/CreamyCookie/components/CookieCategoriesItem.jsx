@@ -39,7 +39,7 @@ const CookieCategoriesItem = ({
             />
           )}
         </div>
-        <span className="fs-9 type-title fw-bold mt-1">{itemText}</span>
+        {/* <span className="fs-9 type-title fw-bold mt-1">{itemText}</span> */}
       </div>
     </div>
   );

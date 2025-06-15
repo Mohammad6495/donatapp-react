@@ -83,6 +83,7 @@ const LandingServices = () => {
                       <img
                        
                         src={item?.image}
+                        
                         className="img-fluid p-2 "
                       />
                     </div>

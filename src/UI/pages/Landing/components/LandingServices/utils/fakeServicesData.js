@@ -5,7 +5,7 @@ import cake5 from "../../../../../../assets/images/bak.jpg";
 
 import newCakeimg from '../../../../../../assets/images/one-caro/The cakes.png'
 import newBakeryimg from '../../../../../../assets/images/one-caro/bakery.png'
-import newCookieimg from '../../../../../../assets/images/one-caro/dry sweets.png'
+import newCookieimg from '../../../../../../assets/images/sweets.png'
 import newramadanimg from '../../../../../../assets/images/Ramadan 1.png'
 import newnorozi from '../../../../../../assets/images/new-nourzi.png'
 import newramadan from '../../../../../../assets/images/new-ramadan.png'
@@ -16,7 +16,7 @@ import birthdaysuppliesImg from '../../../../../../assets/images/one-caro/birthd
 export const fakeServicesData = [
   {
     id: "3",
-    title: "شیرینی خشک",
+    title: "شیرینی",
     imageUrl: cake1,
     path: "/cookie",
     cakeAlias: "",
@@ -88,14 +88,14 @@ export const newfakeDataServiceColomnTwo = [
     path: "/cookie",
     cakeAlias: "",
   },
-  {
-    id: 4,
-    className: '',
-    image: newCookieCreamyimg,
-    path: "/cookie",
-    cakeAlias: "creamy",
+  // {
+  //   id: 4,
+  //   className: '',
+  //   image: newCookieCreamyimg,
+  //   path: "/cookie",
+  //   cakeAlias: "creamy",
 
-  },
+  // },
   {
     id: 5,
     className: '',

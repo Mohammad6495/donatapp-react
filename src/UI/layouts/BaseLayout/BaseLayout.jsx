@@ -156,7 +156,7 @@ const BaseLayout = ({ children }) => {
                 ? "انتخاب جعبه"
                 : ""}
      
-              {location?.pathname.includes("/cookie") ? "شیرینی خشک" : ""}
+              {location?.pathname.includes("/cookie") ? "شیرینی " : ""}
               {location?.pathname === "/bakery" ? "بیکری" : ""}
 
               {location?.pathname === "/dessert" ? "دسر" : ""}

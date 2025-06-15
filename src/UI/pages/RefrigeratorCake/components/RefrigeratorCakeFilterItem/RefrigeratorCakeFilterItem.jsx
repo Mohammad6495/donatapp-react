@@ -30,9 +30,9 @@ const RefrigeratorCakeFilterItem = ({
             onError={(e) => (e.currentTarget.src = defImg)}
           />
         </div>
-        {isShowitemText && (
+        {/* {isShowitemText && (
           <span className="fs-9 type-title fw-bold mt-1">{itemText}</span>
-        )}
+        )} */}
       </div>
     </div>
   );
